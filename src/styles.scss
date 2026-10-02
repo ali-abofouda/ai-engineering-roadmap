@@ -1,0 +1,724 @@
+/* ==========================================================================
+   AI ENGINEER ROADMAP — DONEZO DESIGN SYSTEM REDESIGN
+   Visual Direction: Luxury Deep Forest Pine & Fresh Mint, Warm Canvas, Clean SaaS UI
+   Inspired by: Donezo Dashboard
+   Fonts: Plus Jakarta Sans (EN) & IBM Plex Sans Arabic (AR)
+   ========================================================================== */
+
+:root {
+  /* Donezo Light Foundation (Default Theme as in Template) */
+  --bg-primary: #F4F5F7;
+  --bg-secondary: #EBECEF;
+  --bg-tertiary: #E1E4E8;
+  
+  --surface: #FFFFFF;
+  --surface-card: #FFFFFF;
+  --surface-elevated: #F9FAFB;
+  --surface-hover: #F2F9F5;
+  --surface-glass: rgba(255, 255, 255, 0.94);
+  
+  /* Primary Brand: Deep Forest Pine Green (from Donezo "+ Add Project", "Total Projects") */
+  --primary: #155239;
+  --primary-hover: #1B6547;
+  --primary-dark: #0D3B28;
+  --primary-light: #2D8A5E;
+  --primary-glow: rgba(21, 82, 57, 0.16);
+  --primary-subtle: #E8F5EE;
+  
+  /* Secondary Accent: Fresh Mint & Sage (from Donezo charts, arcs, status badges) */
+  --accent-mint: #34D399;
+  --accent-mint-dark: #10B981;
+  --accent-mint-light: #6EE7B7;
+  --accent-cyan: #10B981; /* Map cyan to emerald mint */
+  --accent-cyan-dark: #059669;
+  --accent-cyan-light: #34D399;
+  --accent-cyan-glow: rgba(16, 185, 129, 0.18);
+  
+  /* Supporting Accent: Dark Pine */
+  --accent-violet: #155239;
+  --accent-purple: #155239;
+  
+  /* Featured Forest Card (Exact "Total Projects" card in template) */
+  --featured-forest-bg: #155239;
+  --featured-forest-text: #FFFFFF;
+  --featured-forest-sub: #A7F3D0;
+  --featured-forest-badge: rgba(255, 255, 255, 0.16);
+
+  /* Time Tracker Dark Widget (Bottom right in template) */
+  --tracker-dark-bg: #0C1F16;
+  --tracker-dark-border: #163B29;
+  --tracker-dark-glow: rgba(52, 211, 153, 0.15);
+  
+  /* Brand Gradient: Forest Green -> Mint */
+  --brand-gradient: linear-gradient(135deg, #155239 0%, #1E6B4B 50%, #10B981 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #1B6547 0%, #34D399 100%);
+  --brand-gradient-subtle: linear-gradient(135deg, rgba(21, 82, 57, 0.08) 0%, rgba(16, 185, 129, 0.05) 100%);
+  
+  /* Neutral Borders with Clean Contrast */
+  --border-subtle: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --border-hover: rgba(21, 82, 57, 0.40);
+  --border-active: rgba(21, 82, 57, 0.70);
+  --border-primary: rgba(21, 82, 57, 0.35);
+  
+  /* Text Colors Hierarchy (Deep, Crisp, High-Contrast Slate) */
+  --text-primary: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
+  --text-disabled: #9CA3AF;
+  
+  /* Semantic Colors */
+  --success: #155239;
+  --success-bg: #E8F5EE;
+  --success-border: #A7F3D0;
+  
+  --warning: #D97706;
+  --warning-bg: #FEF3C7;
+  --warning-border: #FDE68A;
+  
+  --error: #DC2626;
+  --error-bg: #FEE2E2;
+  --error-border: #FECACA;
+  
+  --info: #0284C7;
+  --info-bg: #E0F2FE;
+  --info-border: #BAE6FD;
+  
+  /* Course Colors (Subtle Identifiers Aligned with Donezo Palette) */
+  --course-1: #155239; /* Course 01: Forest Pine */
+  --course-1-bg: #E8F5EE;
+  --course-1-border: #A7F3D0;
+  
+  --course-2: #0D9488; /* Course 02: Sea Green / Teal */
+  --course-2-bg: #CCFBF1;
+  --course-2-border: #99F6E4;
+  
+  --course-3: #334155; /* Course 03: Slate Infrastructure */
+  --course-3-bg: #F1F5F9;
+  --course-3-border: #CBD5E1;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.07);
+  --shadow-glow: 0 0 24px var(--primary-glow);
+
+  /* Modern High-End Fonts */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ==========================================================================
+   DONEZO DESIGN SYSTEM — LIGHT COMPONENT STYLING & ADAPTATIONS
+   ========================================================================== */
+:root, [data-theme="light"], .theme-light {
+  color: var(--text-primary);
+
+  .text-white {
+    color: #111827 !important;
+  }
+
+  .text-light {
+    color: #374151 !important;
+  }
+
+  .text-secondary {
+    color: #4B5563 !important;
+  }
+
+  .text-muted {
+    color: #6B7280 !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #111827 !important;
+  }
+
+  .stat-number.text-white,
+  .node-title.text-white {
+    color: #111827 !important;
+  }
+
+  /* Card and Component Overrides for Light Mode */
+  .modern-card,
+  .node-card,
+  .stage-grid-card,
+  .pillar-card,
+  .feature-card,
+  .stats-card,
+  .journey-preview-card,
+  .stage-detail-panel,
+  .project-card,
+  .question-card,
+  .gap-card,
+  .score-card,
+  .philosophy-card,
+  .agent-architecture-box,
+  .rag-architecture-box,
+  .eval-benchmark-box,
+  .search-dialog,
+  .cta-banner,
+  .guidance-banner,
+  .planner-card,
+  .track-card {
+    background-color: #FFFFFF !important;
+    border-color: #E5E7EB !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 14px rgba(0, 0, 0, 0.02) !important;
+  }
+
+  /* Featured Forest Card Exception in Light Mode: Keeps Rich Forest Pine */
+  .featured-forest-card,
+  .stat-card-featured {
+    background-color: #155239 !important;
+    border-color: #155239 !important;
+    box-shadow: 0 8px 24px rgba(21, 82, 57, 0.22) !important;
+    color: #FFFFFF !important;
+  }
+
+  .featured-forest-card *,
+  .stat-card-featured * {
+    color: #FFFFFF !important;
+  }
+
+  .featured-forest-card .stat-arrow-btn,
+  .stat-card-featured .stat-arrow-btn {
+    background: #FFFFFF !important;
+    color: #155239 !important;
+  }
+
+  .featured-forest-card .stat-sub-badge,
+  .stat-card-featured .stat-sub-badge {
+    background: rgba(255, 255, 255, 0.16) !important;
+    color: #A7F3D0 !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+  }
+
+  .inner-subnode,
+  .benchmark-row,
+  .pipeline-node,
+  .step-detail-card,
+  .agent-block,
+  .score-dial,
+  .check-row,
+  .topic-row,
+  .mini-node-item,
+  .toolbar-box,
+  .matrix-wrap,
+  .calc-results-card,
+  .input-card {
+    background-color: #F9FAFB !important;
+    border-color: #E5E7EB !important;
+  }
+
+  .mini-node-num,
+  .topic-num,
+  .step-chip,
+  .kbd-hint,
+  .badge-tab-count,
+  .progress-dark {
+    background-color: #F3F4F6 !important;
+    border-color: #E5E7EB !important;
+    color: #111827 !important;
+  }
+
+  .code-box {
+    background-color: #F8FAFC !important;
+    border-color: #E5E7EB !important;
+    color: #111827 !important;
+  }
+
+  .code-pre {
+    color: #155239 !important;
+  }
+}
+
+/* ==========================================================================
+   GLOBAL RESET & AMBIENT BACKGROUND
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Subtle Ambient Lighting (Donezo Pine & Mint) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: 
+    radial-gradient(circle 800px at 0% 0%, rgba(21, 82, 57, 0.035) 0%, transparent 70%),
+    radial-gradient(circle 750px at 100% 8%, rgba(52, 211, 153, 0.03) 0%, transparent 65%),
+    radial-gradient(circle 600px at 50% 100%, rgba(21, 82, 57, 0.015) 0%, transparent 60%);
+}
+
+/* Arabic Typography Enhancements */
+html[lang="ar"], body.lang-ar {
+  font-family: var(--font-arabic) !important;
+  line-height: 1.75;
+}
+
+body.lang-ar * {
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+/* RTL Logical Rules & Isolation */
+[dir="rtl"] {
+  text-align: start;
+}
+
+/* Preserve LTR for Code, Technical Tokens, Paths & URLs */
+pre, code, kbd, samp, .font-mono, [dir="ltr"], .code-block, .tech-term {
+  font-family: var(--font-mono) !important;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* RTL Directional Icon Mirroring */
+[dir="rtl"] .icon-flip-rtl {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
+[dir="rtl"] .fa-arrow-right {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .fa-chevron-right {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .fa-arrow-left {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .fa-chevron-left {
+  transform: scaleX(-1);
+}
+
+/* Do NOT mirror semantic non-directional icons */
+.fa-magnifying-glass, .fa-brain, .fa-github, .fa-moon, .fa-sun, .fa-code, .fa-laptop-code {
+  transform: none !important;
+}
+
+/* Focus Visible Accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-elevated);
+  border-radius: 4px;
+  border: 1px solid var(--border-subtle);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Selection */
+::selection {
+  background: var(--primary-glow);
+  color: var(--text-primary);
+}
+
+/* Link transitions */
+a {
+  color: var(--primary-light);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* Container */
+.container-xl {
+  max-width: 1360px;
+}
+
+/* Text Hierarchy Helpers */
+.text-primary {
+  color: var(--text-primary) !important;
+}
+
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.text-cyan {
+  color: var(--accent-cyan) !important;
+}
+
+.text-violet {
+  color: var(--accent-violet) !important;
+}
+
+.text-purple {
+  color: var(--accent-violet) !important;
+}
+
+.text-emerald, .text-success {
+  color: var(--success) !important;
+}
+
+/* Brand Gradient Text Helper */
+.brand-gradient-text {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   COMMON REUSABLE DESIGN SYSTEM CLASSES
+   ========================================================================== */
+
+/* Modern Cards */
+.modern-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.modern-card:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Course Badges */
+.course-badge {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  direction: ltr !important;
+}
+
+.course-badge[data-course="COURSE 01"] {
+  background: var(--course-1-bg);
+  color: var(--course-1);
+  border: 1px solid var(--course-1-border);
+}
+
+.course-badge[data-course="COURSE 02"] {
+  background: var(--course-2-bg);
+  color: var(--course-2);
+  border: 1px solid var(--course-2-border);
+}
+
+.course-badge[data-course="COURSE 03"] {
+  background: var(--course-3-bg);
+  color: var(--course-3);
+  border: 1px solid var(--course-3-border);
+}
+
+/* Accessible Coverage Badges */
+.coverage-badge {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.coverage-badge[data-cov="Covered"] {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+
+.coverage-badge[data-cov="Partially Covered"] {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
+}
+
+.coverage-badge[data-cov="Not Covered"] {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error-border);
+}
+
+.cov-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Tech Chips */
+.tech-chip {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  direction: ltr !important;
+}
+
+/* Primary Button (Donezo Forest Pine Pill CTA) */
+.btn-primary-action {
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  color: #ffffff !important;
+  font-weight: 600;
+  padding: 9px 22px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 10px var(--primary-glow);
+}
+
+.btn-primary-action:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px var(--primary-glow);
+}
+
+/* Secondary Button (Donezo Clean White/Transparent Pill CTA) */
+.btn-secondary-action {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary) !important;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary-action:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary);
+  color: var(--primary) !important;
+  transform: translateY(-2px);
+}
+
+/* Donezo Stat Cards System */
+.stat-card-donezo {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card-donezo:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-card-donezo.featured {
+  background: var(--featured-forest-bg) !important;
+  border-color: var(--featured-forest-bg) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 10px 25px rgba(21, 82, 57, 0.20) !important;
+}
+
+.stat-card-donezo.featured * {
+  color: #FFFFFF !important;
+}
+
+.stat-arrow-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  transition: all 0.15s ease;
+}
+
+.stat-card-donezo.featured .stat-arrow-btn {
+  background: #FFFFFF !important;
+  color: #155239 !important;
+  border-color: #FFFFFF !important;
+}
+
+.stat-sub-badge {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.stat-card-donezo.featured .stat-sub-badge {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #A7F3D0 !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* ==========================================================================
+   CROSS-DEVICE RESPONSIVE SYSTEM (Mobile, Tablet, Laptop, Ultra-Wide)
+   ========================================================================== */
+
+/* Universal Fluid Containers & Prevent Overflow */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Extra Small Phones (< 576px) */
+@media (max-width: 575.98px) {
+  .container, .container-fluid, .container-xl {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  /* Compact Donezo Stat Cards */
+  .stat-card-donezo {
+    padding: 12px 10px !important;
+    border-radius: var(--radius-lg) !important;
+  }
+  .stat-arrow-btn {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 0.65rem !important;
+  }
+  .stat-number-donezo {
+    font-size: 1.45rem !important;
+  }
+  .stat-card-title {
+    font-size: 0.70rem !important;
+  }
+  .stat-sub-badge {
+    font-size: 0.62rem !important;
+    padding: 2px 6px !important;
+  }
+
+  /* Responsive Buttons */
+  .btn-primary-action, .btn-secondary-action {
+    padding: 8px 16px !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* Responsive Cards Padding */
+  .modern-card,
+  .node-card,
+  .stage-grid-card,
+  .pillar-card,
+  .feature-card,
+  .track-card,
+  .project-card,
+  .question-card,
+  .gap-card,
+  .score-card {
+    padding: 14px 12px !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  /* Navbar Brand on Small Mobiles */
+  .brand-title {
+    font-size: 0.84rem !important;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nav-btn-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+/* Tablets & Small Laptops (576px to 991px) */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .stat-card-donezo {
+    padding: 16px 14px !important;
+  }
+  .stat-arrow-btn {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  .stat-number-donezo {
+    font-size: 1.65rem !important;
+  }
+}
+
+/* Large Screens & Desktops (>= 1200px) */
+@media (min-width: 1200px) {
+  .container-xl {
+    max-width: 1320px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

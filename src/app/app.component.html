@@ -1,0 +1,24 @@
+<div class="app-shell min-vh-100 d-flex flex-column">
+  <!-- Sticky Modern Navbar -->
+  <app-navbar (openSearch)="openSearch()" (openSession)="openSession()"></app-navbar>
+
+  <!-- Main Routing View Area -->
+  <main class="flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Modern Footer -->
+  <app-footer></app-footer>
+
+  <!-- Global Fast Search Modal (Ctrl+K) -->
+  <app-search-modal 
+    *ngIf="searchModalOpen" 
+    (closeEvent)="closeSearch()"
+  ></app-search-modal>
+
+  <!-- Global Session & Study Planner Modal -->
+  <app-session-modal
+    *ngIf="sessionModalOpen"
+    (closeEvent)="closeSession()"
+  ></app-session-modal>
+</div>
