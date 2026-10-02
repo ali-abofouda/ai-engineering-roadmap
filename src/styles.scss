@@ -110,7 +110,7 @@
 
   /* Modern High-End Fonts */
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-arabic: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-arabic: 'Cairo', 'Alexandria', 'Tajawal', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -273,13 +273,32 @@ body::before {
     radial-gradient(circle 600px at 50% 100%, rgba(21, 82, 57, 0.015) 0%, transparent 60%);
 }
 
-/* Arabic Typography Enhancements */
-html[lang="ar"], body.lang-ar {
+/* Arabic Typography Enhancements — Cairo Modern Tech UI */
+html[lang="ar"],
+html[dir="rtl"],
+body.lang-ar,
+[dir="rtl"] {
   font-family: var(--font-arabic) !important;
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
-body.lang-ar * {
+html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+body.lang-ar h1, body.lang-ar h2, body.lang-ar h3, body.lang-ar h4, body.lang-ar h5, body.lang-ar h6 {
+  font-family: var(--font-arabic) !important;
+  letter-spacing: normal !important;
+  font-weight: 700;
+}
+
+html[lang="ar"] button, html[lang="ar"] .btn, html[lang="ar"] input, html[lang="ar"] .badge,
+[dir="rtl"] button, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] .badge,
+body.lang-ar button, body.lang-ar .btn, body.lang-ar input, body.lang-ar .badge {
+  font-family: var(--font-arabic) !important;
+  letter-spacing: normal !important;
+}
+
+body.lang-ar *,
+[dir="rtl"] * {
   text-transform: none !important;
   letter-spacing: normal !important;
 }
