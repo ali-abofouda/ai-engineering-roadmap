@@ -13,12 +13,10 @@ import { Subscription } from 'rxjs';
   template: `
     <nav class="navbar navbar-expand-xl sticky-top custom-navbar">
       <div class="container-xl">
-        <!-- Brand Logo (Compact Single-line) -->
+        <!-- Brand Logo (Clean Minimalist Typography) -->
         <a class="navbar-brand d-flex align-items-center gap-2 py-0" routerLink="/" (click)="closeNav()">
-          <div class="brand-logo-badge">
-            <i class="fa-solid fa-brain"></i>
-          </div>
           <span class="brand-title">{{ 'nav.brandTitle' | trans }}</span>
+          <span class="brand-live-dot"></span>
         </a>
 
         <!-- Mobile Quick Toggles & Menu Button -->
@@ -128,26 +126,21 @@ import { Subscription } from 'rxjs';
       z-index: 1050;
       transition: all 0.2s ease;
     }
-    .brand-logo-badge {
-      width: 32px;
-      height: 32px;
-      background: var(--primary);
-      border: 1px solid var(--primary);
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      color: #FFFFFF;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-      box-shadow: 0 2px 8px var(--primary-glow);
-    }
     .brand-title {
-      font-size: 0.94rem;
+      font-size: 1rem;
       font-weight: 800;
       letter-spacing: -0.01em;
       color: var(--text-primary);
       line-height: 1;
       white-space: nowrap;
+    }
+    .brand-live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-mint);
+      box-shadow: 0 0 8px rgba(52, 211, 153, 0.7);
+      display: inline-block;
     }
     .nav-links-gap {
       gap: 2px;

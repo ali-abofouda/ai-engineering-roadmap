@@ -194,9 +194,9 @@ import { TranslationService } from '../../services/translation.service';
             <!-- Course 1 Pillar -->
             <div class="col-md-4">
               <div class="pillar-card h-100 p-4 border border-course-1">
-                <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                   <span class="course-badge" data-course="COURSE 01">COURSE 01</span>
-                  <i class="fa-solid fa-brain text-primary fa-xl"></i>
+                  <span class="font-monospace text-muted small">Part 01</span>
                 </div>
                 <h5 class="text-white mb-2">{{ 'course1.title' | trans }}</h5>
                 <p class="text-secondary small leading-relaxed mb-3">
@@ -209,9 +209,9 @@ import { TranslationService } from '../../services/translation.service';
             <!-- Course 2 Pillar -->
             <div class="col-md-4">
               <div class="pillar-card h-100 p-4 border border-course-2">
-                <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                   <span class="course-badge" data-course="COURSE 02">COURSE 02</span>
-                  <i class="fa-solid fa-diagram-project text-cyan fa-xl"></i>
+                  <span class="font-monospace text-muted small">Part 02</span>
                 </div>
                 <h5 class="text-white mb-2">{{ 'course2.title' | trans }}</h5>
                 <p class="text-secondary small leading-relaxed mb-3">
@@ -224,9 +224,9 @@ import { TranslationService } from '../../services/translation.service';
             <!-- Course 3 Pillar -->
             <div class="col-md-4">
               <div class="pillar-card h-100 p-4 border border-course-3">
-                <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                   <span class="course-badge" data-course="COURSE 03">COURSE 03</span>
-                  <i class="fa-solid fa-cloud text-purple fa-xl"></i>
+                  <span class="font-monospace text-muted small">Part 03</span>
                 </div>
                 <h5 class="text-white mb-2">{{ 'course3.title' | trans }}</h5>
                 <p class="text-secondary small leading-relaxed mb-3">

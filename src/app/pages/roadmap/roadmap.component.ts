@@ -101,7 +101,6 @@ export interface RoadmapPhase {
                   (click)="scrollToPhase(p.id)"
                 >
                   <span class="chip-num font-monospace">{{ p.numberStr }}</span>
-                  <i class="fa-solid" [class]="p.icon"></i>
                   <span class="chip-label text-truncate">{{ currentLang === 'ar' ? p.titleAr : p.titleEn }}</span>
                   <span class="chip-pct font-monospace ms-auto">{{ getPhaseProgressPct(p) }}%</span>
                 </button>
@@ -249,9 +248,8 @@ export interface RoadmapPhase {
             <div class="phase-gateway-card p-3 p-md-4 mb-4" [class.collapsed]="!isPhaseExpanded(phase.id)">
               <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <div class="d-flex align-items-center gap-3">
-                  <div class="phase-crest-badge">
-                    <span class="crest-num font-monospace">{{ phase.numberStr }}</span>
-                    <i class="fa-solid" [class]="phase.icon"></i>
+                  <div class="phase-number-crest font-monospace">
+                    {{ phase.numberStr }}
                   </div>
                   <div>
                     <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
@@ -959,30 +957,19 @@ export interface RoadmapPhase {
       box-shadow: var(--shadow-md);
       border-color: var(--border-hover);
     }
-    .phase-crest-badge {
-      width: 48px;
-      height: 48px;
-      background: var(--surface);
+    .phase-number-crest {
+      width: 44px;
+      height: 44px;
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       display: grid;
       place-items: center;
       color: var(--phase-accent, var(--primary-light));
-      font-size: 1.25rem;
-      flex-shrink: 0;
-      position: relative;
-    }
-    .crest-num {
-      position: absolute;
-      top: -6px;
-      inset-inline-start: -6px;
-      font-size: 0.65rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      background: var(--phase-accent, var(--primary));
-      color: #FFFFFF;
-      padding: 1px 5px;
-      border-radius: 999px;
-      line-height: 1.2;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
     .phase-badge {
       font-size: 0.72rem;

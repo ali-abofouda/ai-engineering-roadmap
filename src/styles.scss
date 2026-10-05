@@ -110,7 +110,9 @@
 
   /* Modern High-End Fonts */
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-arabic: 'Cairo', 'Alexandria', 'Tajawal', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arabic: 'Alexandria', 'Readex Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arabic-heading: 'Alexandria', 'Cairo', sans-serif;
+  --font-arabic-body: 'Alexandria', 'Readex Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -273,27 +275,63 @@ body::before {
     radial-gradient(circle 600px at 50% 100%, rgba(21, 82, 57, 0.015) 0%, transparent 60%);
 }
 
-/* Arabic Typography Enhancements — Cairo Modern Tech UI */
+/* Arabic Typography Enhancements — Alexandria Body & Subtext Clarity */
 html[lang="ar"],
 html[dir="rtl"],
 body.lang-ar,
 [dir="rtl"] {
-  font-family: var(--font-arabic) !important;
-  line-height: 1.7;
+  font-family: var(--font-arabic-body) !important;
+  line-height: 1.75;
 }
 
+/* Headings in Arabic */
 html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4, html[lang="ar"] h5, html[lang="ar"] h6,
 [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
 body.lang-ar h1, body.lang-ar h2, body.lang-ar h3, body.lang-ar h4, body.lang-ar h5, body.lang-ar h6 {
-  font-family: var(--font-arabic) !important;
+  font-family: var(--font-arabic-heading) !important;
   letter-spacing: normal !important;
   font-weight: 700;
+}
+
+/* Subtexts, Descriptions, Secondary Text & Small Notes */
+html[lang="ar"] p, html[lang="ar"] .text-secondary, html[lang="ar"] .text-muted,
+html[lang="ar"] .hero-desc, html[lang="ar"] .hero-subtitle, html[lang="ar"] .phase-desc,
+html[lang="ar"] .stage-card-desc, html[lang="ar"] .small, html[lang="ar"] small,
+[dir="rtl"] p, [dir="rtl"] .text-secondary, [dir="rtl"] .text-muted,
+[dir="rtl"] .hero-desc, [dir="rtl"] .hero-subtitle, [dir="rtl"] .phase-desc,
+[dir="rtl"] .stage-card-desc, [dir="rtl"] .small, [dir="rtl"] small {
+  font-family: var(--font-arabic-body) !important;
+  font-weight: 400;
+  line-height: 1.85 !important;
+  letter-spacing: 0 !important;
+}
+
+/* Crisp Contrast for Arabic Secondary Text */
+[dir="rtl"] .text-secondary {
+  color: #374151 !important;
+}
+
+[dir="rtl"] .text-muted {
+  color: #4B5563 !important;
+}
+
+[dir="rtl"] .hero-desc {
+  font-size: 1.02rem;
+  line-height: 1.9 !important;
+  color: #374151 !important;
+}
+
+[dir="rtl"] .hero-subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #374151 !important;
 }
 
 html[lang="ar"] button, html[lang="ar"] .btn, html[lang="ar"] input, html[lang="ar"] .badge,
 [dir="rtl"] button, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] .badge,
 body.lang-ar button, body.lang-ar .btn, body.lang-ar input, body.lang-ar .badge {
-  font-family: var(--font-arabic) !important;
+  font-family: var(--font-arabic-body) !important;
   letter-spacing: normal !important;
 }
 

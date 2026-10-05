@@ -14,10 +14,8 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           <!-- Col 1: Brand & Philosophy -->
           <div class="col-lg-4 col-md-6">
             <div class="d-flex align-items-center gap-2 mb-3">
-              <div class="footer-logo">
-                <i class="fa-solid fa-brain"></i>
-              </div>
               <h5 class="mb-0 text-white fw-bold">{{ 'nav.brandTitle' | trans }}</h5>
+              <span class="footer-live-dot"></span>
             </div>
             <p class="footer-desc-text small leading-relaxed mb-3">
               {{ 'footer.desc' | trans }}
@@ -91,16 +89,13 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
       border-color: var(--border-subtle) !important;
       position: relative;
     }
-    .footer-logo {
-      width: 32px;
-      height: 32px;
-      background: var(--primary);
-      border: 1px solid var(--primary);
-      border-radius: var(--radius-md);
-      display: grid;
-      place-items: center;
-      color: #FFFFFF;
-      font-size: 0.95rem;
+    .footer-live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-mint);
+      box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+      display: inline-block;
     }
     .footer-desc-text {
       color: var(--text-secondary);
