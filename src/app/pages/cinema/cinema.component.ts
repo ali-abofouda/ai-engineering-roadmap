@@ -22,15 +22,15 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <span class="live-dot"></span>
                 <span class="kicker-label font-monospace">{{ currentLang === 'ar' ? 'الفص السينمائي' : 'Cinema Lobe' }}</span>
                 <span class="kicker-sep">·</span>
-                <span class="kicker-sub">24 {{ currentLang === 'ar' ? 'فيلماً شكّل وعيي' : 'Masterpieces' }}</span>
+                <span class="kicker-sub">{{ movies.length }} {{ currentLang === 'ar' ? 'أفلام أثرت في تفكيري' : 'Curated Masterpieces' }}</span>
               </div>
               <h1 class="hero-title fw-bold mb-2">
-                {{ currentLang === 'ar' ? 'مكتبة السينما والأفلام العظيمة' : 'Great Cinema & Film Masterpieces' }}
+                {{ currentLang === 'ar' ? 'روائع السينما والأفلام المختارة' : 'Curated Cinema Masterpieces' }}
               </h1>
               <p class="hero-desc mb-0">
                 {{ currentLang === 'ar' 
-                  ? 'مجموعة مختارة بعناية من أعظم الأعمال السينمائية في تاريخ الفن السابع: أفلام أثارت تساؤلات وجودية، ألهمت صمودي، وغيرت نظرتي للعالم وللنفس البشرية.'
-                  : 'A curated anthology of 24 cinematic masterpieces that challenged reality, moved my soul, and shaped my intellectual perspective.' }}
+                  ? 'مجموعة مختارة بعناية من الأعمال السينمائية التي أثارت تساؤلات وجودية، ألهمت صمودي، وغيرت نظرتي للعالم وللنفس البشرية.'
+                  : 'A curated anthology of cinematic masterpieces that challenged reality, moved my soul, and shaped my intellectual perspective.' }}
               </p>
             </div>
 
@@ -446,13 +446,9 @@ export class CinemaComponent implements OnInit {
   selectedCategory = 'All';
 
   categories = [
-    { key: 'All', labelEn: 'All Movies', labelAr: 'كافة الأفلام' },
-    { key: 'Sci-Fi', labelEn: 'Sci-Fi & Mind-Benders', labelAr: 'خيال علمي ووعي' },
-    { key: 'Drama', labelEn: 'Drama & Life', labelAr: 'دراما وإلهام' },
-    { key: 'Mystery', labelEn: 'Psychological Thriller', labelAr: 'إثارة وغموض' },
-    { key: 'Biography', labelEn: 'Biographies', labelAr: 'سير ذاتية وتاريخ' },
-    { key: 'Classics', labelEn: 'Classics', labelAr: 'كلاسيكيات كبرى' },
-    { key: 'Global', labelEn: 'Global Masterpieces', labelAr: 'سينما عالمية' }
+    { key: 'All', labelEn: 'All Selected Films (6)', labelAr: 'كافة الأفلام المختارة (6)' },
+    { key: 'Mind-Benders', labelEn: 'Mind-Benders & Sci-Fi', labelAr: 'أفلام ذهنية وفلسفية' },
+    { key: 'Human Spirit', labelEn: 'Human Spirit & Hope', labelAr: 'الدراما الإنسانية وقوة الأمل' }
   ];
 
   constructor(public transService: TranslationService) {}
