@@ -89,7 +89,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
       height: 6px;
       border-radius: 50%;
       background: var(--accent-mint);
-      box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+      box-shadow: 0 0 6px rgba(217, 119, 6, 0.6);
       display: inline-block;
     }
     .footer-desc-text {
@@ -113,7 +113,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
     .badge-subtle-primary {
       background: var(--primary-subtle);
       color: var(--primary-light);
-      border: 1px solid rgba(21, 82, 57, 0.25);
+      border: 1px solid rgba(180, 83, 9, 0.25);
       font-size: 0.7rem;
       padding: 3px 8px;
       border-radius: var(--radius-sm);
