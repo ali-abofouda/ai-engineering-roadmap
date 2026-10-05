@@ -77,7 +77,21 @@ export interface PrincipleItem {
         </div>
 
         <!-- PRINCIPLES ACCORDION / GRID -->
-        <div class="row g-3 mb-5">
+        <!-- EMPTY STATE BOX -->
+        <div *ngIf="filteredPrinciples.length === 0" class="empty-state-box text-center p-5 rounded-4 my-4">
+          <div class="empty-icon-circle mb-3 mx-auto">
+            <i class="fa-solid fa-compass"></i>
+          </div>
+          <h4 class="fw-bold mb-2">{{ currentLang === 'ar' ? 'القسم فارغ حالياً' : 'This Section is Currently Empty' }}</h4>
+          <p class="text-secondary mb-0 max-w-500 mx-auto">
+            {{ currentLang === 'ar' 
+              ? 'هذا القسم محفوظ ومخصص لمبادئ التفكير وقواعد التشغيل ومجهز بالكامل لإضافة مبادئك الخاصة.' 
+              : 'This section is reserved for your operating principles, ready for your core guidelines and mental models.' }}
+          </p>
+        </div>
+
+        <!-- PRINCIPLES GRID -->
+        <div *ngIf="filteredPrinciples.length > 0" class="row g-3 mb-5">
           <div *ngFor="let p of filteredPrinciples" class="col-lg-6 col-12">
             <div class="principle-card h-100 p-3 p-md-4 d-flex flex-column">
               <!-- Top Row -->
@@ -202,8 +216,14 @@ export interface PrincipleItem {
     .habit-box {
       background: var(--surface-elevated); border: 1px solid var(--border-subtle);
     }
-    .quote-strip {
-      background: var(--surface-elevated);
+    .empty-state-box {
+      background: var(--surface-card);
+      border: 1px dashed var(--border-subtle);
+    }
+    .empty-icon-circle {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--primary-subtle); color: var(--primary);
+      display: grid; place-items: center; font-size: 1.6rem;
     }
   `]
 })
@@ -218,98 +238,7 @@ export class PrinciplesComponent implements OnInit {
     { key: 'Execution', labelEn: 'Execution & Systems', labelAr: 'التنفيذ والأنظمة' }
   ];
 
-  principles: PrincipleItem[] = [
-    {
-      id: 'pr-01',
-      numberStr: '01',
-      titleEn: 'Systems Over Goals',
-      titleAr: 'الأنظمة تهزم الأهداف دائماً',
-      category: 'Execution',
-      coreRuleEn: 'You do not rise to the level of your goals; you fall to the level of your daily systems.',
-      coreRuleAr: 'أنت لا ترتقي لمستوى أهدافك وطموحاتك، بل تهبط لمستوى أنظمتك وعاداتك اليومية الصغيرة.',
-      elaborationEn: 'Goals are good for setting a direction, but systems are best for making progress. Focusing solely on the outcome leads to perpetual dissatisfaction and inconsistency.',
-      elaborationAr: 'الأهداف مفيدة فقط لتحديد البوصلة والاتجاه، لكن الأنظمة والعادات اليومية هي ما يصنع التقدم الحقيقي. التركيز المفرط على النتيجة النهائية يسبب التشتت والإحباط.',
-      actionableHabitEn: 'Instead of obsessing over finishing a project, protect an unnegotiable 90-minute morning focus block every single day.',
-      actionableHabitAr: 'بدلاً من الهوس بميعاد إنهاء مشروع ضخم، احمِ 90 دقيقة صباحية مقدسة يومياً من العمل العميق غير المنقطع.',
-      favoriteQuote: 'Goals are about the results you want to achieve. Systems are about the processes that lead to those results.',
-      quoteAuthor: 'James Clear'
-    },
-    {
-      id: 'pr-02',
-      numberStr: '02',
-      titleEn: 'Dichotomy of Control',
-      titleAr: 'ثنائية السيطرة (ما تملكه وما لا تملكه)',
-      category: 'Stoicism',
-      coreRuleEn: 'Distinguish ruthlessly between what is in your control and what is not.',
-      coreRuleAr: 'افصل بصرامة بالغة بين ما تملك السيطرة عليه وما يقع خارج نطاق قدرتك.',
-      elaborationEn: 'You have zero control over market conditions, other people opinions, or unexpected bugs; you have 100% control over your preparation, integrity, effort, and emotional reaction.',
-      elaborationAr: 'أنت لا تملك أي سيطرة على آراء الآخرين، تقلبات الظروف، أو المشكلات المفاجئة؛ لكنك تملك السيطرة الكاملة على استعدادك، جهدك، وردة فعلك العقلانية.',
-      actionableHabitEn: 'Whenever anxiety spikes, write down two columns: "Things I can act on right now" vs "Things out of my control". Discard the second column immediately.',
-      actionableHabitAr: 'عندما تشعر بالتوتر أو القلق، قسّم الورقة إلى عمودين: "ما يمكنني التصرف حياله الآن" و "ما هو خارج سيطرتي"، وتجاهل العمود الثاني تماماً.',
-      favoriteQuote: 'You have power over your mind - not outside events. Realize this, and you will find strength.',
-      quoteAuthor: 'Marcus Aurelius'
-    },
-    {
-      id: 'pr-03',
-      numberStr: '03',
-      titleEn: 'Inversion Principle',
-      titleAr: 'مبدأ القلب والعكس (Inversion)',
-      category: 'Thinking',
-      coreRuleEn: 'Avoid foolishness consistently rather than trying to be brilliant.',
-      coreRuleAr: 'تجنب الحماقات والأخطاء الكارثية باستمرار، أفضل بكثير من محاولة إثبات العبقرية الاستثنائية.',
-      elaborationEn: 'It is remarkable how much long-term advantage people like us have gotten by trying to be consistently not stupid, instead of trying to be very intelligent.',
-      elaborationAr: 'النجاح المستدام نادراً ما يكون نتاج ضربات حظ عبقرية، بل يأتي من تجنب الأخطاء الساذجة المتكررة التي تدمر الجهد (مثل الديون غير الضرورية، الغرور، والتشتت).',
-      actionableHabitEn: 'Before starting any major venture, ask: "How could this fail terribly?" and write explicit safeguards to prevent each failure mode.',
-      actionableHabitAr: 'قبل إطلاق أي مشروع، اسأل نفسك: "كيف يمكن لهذا الأمر أن يفشل بشكل كارثي؟" وضع خطة صريحة لمنع حدوث كل سيناريو فشل.',
-      favoriteQuote: 'Invert, always invert: Turn a situation upside down. What happens if all our assumptions are wrong?',
-      quoteAuthor: 'Charlie Munger'
-    },
-    {
-      id: 'pr-04',
-      numberStr: '04',
-      titleEn: 'Deep Work & Shallow Detox',
-      titleAr: 'العمل العميق والتخلص من وهم التواجد الدائم',
-      category: 'Focus',
-      coreRuleEn: 'High-quality work produced = (Time spent) x (Intensity of focus).',
-      coreRuleAr: 'حجم وجودة الإنجاز الحقيقي = (الوقت المستغرق) × (كثافة وعمق التركيز الذهني).',
-      elaborationEn: 'Multitasking is a neurological myth. Every context switch incurs a heavy cognitive switching penalty (attention residue). Half-distracted work yields mediocre results.',
-      elaborationAr: 'تعدد المهام في وقت واحد خرافة عصبية؛ كل تشتت بالهاتف أو الإشعارات يترك رواسب انتباه تعطل الإبداع الحقيقي والحلول المعقدة.',
-      actionableHabitEn: 'Never start work with communication tools open. Keep your phone in another room during high-cognitive sessions.',
-      actionableHabitAr: 'لا تفتح بريدك أو تطبيقات التواصل في بداية يومك؛ اترك هاتفك في غرفة أخرى أثناء جلسات التفكير والبرمجة الصعبة.',
-      favoriteQuote: 'If you don’t produce, you won’t thrive—no matter how skilled or talented you are.',
-      quoteAuthor: 'Cal Newport'
-    },
-    {
-      id: 'pr-05',
-      numberStr: '05',
-      titleEn: 'Asymmetric Upside (Antifragility)',
-      titleAr: 'المخاطرة غير المتماثلة (مكاسب هائلة وخسائر محدودة)',
-      category: 'Execution',
-      coreRuleEn: 'Position yourself where the downside is strictly capped, but the upside is exponentially unlimited.',
-      coreRuleAr: 'ضع نفسك دائماً في مواقف تكون فيها أقصى خسارة ممكنة صغيرة ومحدودة، بينما أفق المكسب غير محدود.',
-      elaborationEn: 'Writing code, releasing open-source libraries, reading books, and learning English all have near-zero downside (a few hours of time) and infinite potential upside.',
-      elaborationAr: 'تعلم مهارة جديدة، كتابة مقال، بناء مشروع مفتوح المصدر، أو القراءة تكلفك بضع ساعات فقط، لكنها قد تفتح لك أبواباً وفرصاً تغير مجرى حياتك بالكامل.',
-      actionableHabitEn: 'Invest 20% of your free time in permissionless leverage (creating digital assets that work for you while you sleep).',
-      actionableHabitAr: 'استثمر 20% من وقت فراغك في بناء أصول رقمية أو مهارات دائمة (كود، محتوى، معرفة عميقة) تعمل لصالحك على المدى البعيد.',
-      favoriteQuote: 'Curiosity is an engine of asymmetric upside. Follow what interests you deeply.',
-      quoteAuthor: 'Naval Ravikant'
-    },
-    {
-      id: 'pr-06',
-      numberStr: '06',
-      titleEn: 'Radical Self-Accountability',
-      titleAr: 'المسؤولية الذاتية الكاملة وتجاوز دور الضحية',
-      category: 'Stoicism',
-      coreRuleEn: 'It might not be your fault, but it is 100% your responsibility to deal with it.',
-      coreRuleAr: 'قد لا يكون الظرف السيئ خطأك، لكن التعامل معه وتجاوزه هو مسؤوليتك بنسبة 100%.',
-      elaborationEn: 'Blaming luck, society, colleagues, or background provides temporary psychological comfort but completely strips you of personal agency and power to change.',
-      elaborationAr: 'إلقاء اللوم على الظروف أو الحظ يمنح عقلك راحة وهمية مؤقتة، لكنه يسلبك تماماً زمام المبادرة والقدرة على التغيير وصناعة واقعك.',
-      actionableHabitEn: 'Whenever a setback occurs, eliminate the word "Why is this happening to me?" and replace it with "What is the best next move?"',
-      actionableHabitAr: 'عند وقوع أي انتكاسة، استبدل فوراً سؤال "لماذا يحدث هذا لي؟" بسؤال عملي وحاسم: "ما هي أفضل خطوة قادمة الآن؟"',
-      favoriteQuote: 'You are in danger of living a life so comfortable and soft, that you will die without ever realizing your true potential.',
-      quoteAuthor: 'David Goggins'
-    }
-  ];
+  principles: PrincipleItem[] = [];
 
   filteredPrinciples: PrincipleItem[] = [];
 

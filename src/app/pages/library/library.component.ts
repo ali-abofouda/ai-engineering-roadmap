@@ -22,15 +22,15 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
                 <span class="live-dot"></span>
                 <span class="kicker-label font-monospace">{{ currentLang === 'ar' ? 'فص الكتب والمكتبة' : 'Library & Reading Lobe' }}</span>
                 <span class="kicker-sep">·</span>
-                <span class="kicker-sub">16 {{ currentLang === 'ar' ? 'كتاباً غيروا طريقة تفكيري' : 'Life-Changing Books' }}</span>
+                <span class="kicker-sub">{{ books.length }} {{ currentLang === 'ar' ? 'كتب مسجلة' : 'Recorded Books' }}</span>
               </div>
               <h1 class="hero-title fw-bold mb-2">
                 {{ currentLang === 'ar' ? 'المكتبة الخاصة والكتب التي شكلت عقلي' : 'Personal Library & Mind-Shaping Books' }}
               </h1>
               <p class="hero-desc mb-0">
                 {{ currentLang === 'ar' 
-                  ? 'مجموعة مقتناة من أهم الكتب العالمية في بناء العادات الصارمة، العمل العميق، النماذج الذهنية، سيكولوجية الثروة، والحكمة الرواقية لتجاوز تحديات الحياة.'
-                  : 'A curated reading canon of foundational books on habits, deep focus, cognitive mental models, psychology of wealth, and stoic endurance.' }}
+                  ? 'مجموعة مقتناة من أهم الكتب العالمية في بناء العادات، العمل العميق، النماذج الذهنية، وسيكولوجية الإنجاز والحكمة.'
+                  : 'A curated reading canon of foundational books on habits, deep focus, cognitive mental models, and personal wisdom.' }}
               </p>
             </div>
 
@@ -95,8 +95,21 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           </div>
         </div>
 
+        <!-- EMPTY STATE BOX -->
+        <div *ngIf="filteredBooks.length === 0" class="empty-state-box text-center p-5 rounded-4 my-4">
+          <div class="empty-icon-circle mb-3 mx-auto">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <h4 class="fw-bold mb-2">{{ currentLang === 'ar' ? 'القسم فارغ حالياً' : 'This Section is Currently Empty' }}</h4>
+          <p class="text-secondary mb-0 max-w-500 mx-auto">
+            {{ currentLang === 'ar' 
+              ? 'هذا القسم محفوظ ومخصص للكتب والقراءات ومجهز بالكامل لإضافة قراءاتك وملخصاتك القادمة.' 
+              : 'This section is reserved for your reading canon, ready for your custom books and reading notes.' }}
+          </p>
+        </div>
+
         <!-- BOOKS GRID -->
-        <div class="row g-3 mb-5">
+        <div *ngIf="filteredBooks.length > 0" class="row g-3 mb-5">
           <div *ngFor="let book of filteredBooks" class="col-xl-4 col-md-6 col-12">
             <div class="book-card h-100 p-3 p-md-4 d-flex flex-column" [class.is-read]="isRead(book.id)">
               <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
@@ -354,6 +367,16 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
       background: var(--surface-elevated); border: 1px solid var(--border-subtle);
       color: var(--text-secondary); width: 32px; height: 32px; display: grid;
       place-items: center; border-radius: var(--radius-sm);
+    }
+
+    .empty-state-box {
+      background: var(--surface-card);
+      border: 1px dashed var(--border-subtle);
+    }
+    .empty-icon-circle {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--primary-subtle); color: var(--primary);
+      display: grid; place-items: center; font-size: 1.6rem;
     }
     .preview-scroll-body {
       overflow-y: auto; scrollbar-width: thin; padding-inline-end: 4px; flex-grow: 1;
