@@ -1,24 +1,26 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { RoadmapComponent } from './pages/roadmap/roadmap.component';
+import { CinemaComponent } from './pages/cinema/cinema.component';
+import { LibraryComponent } from './pages/library/library.component';
+import { LanguagesComponent } from './pages/languages/languages.component';
+import { PrinciplesComponent } from './pages/principles/principles.component';
 import { StageDetailComponent } from './pages/stage-detail/stage-detail.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { InterviewComponent } from './pages/interview/interview.component';
-import { JobReadyComponent } from './pages/job-ready/job-ready.component';
 import { ResourcesComponent } from './pages/resources/resources.component';
-import { CourseCoverageComponent } from './pages/course-coverage/course-coverage.component';
-import { MissingSkillsComponent } from './pages/missing-skills/missing-skills.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent, title: 'AI Engineer Roadmap — From Fundamentals to Production AI' },
-  { path: 'roadmap', component: RoadmapComponent, title: 'Visual Roadmap | AI Engineer Roadmap' },
-  { path: 'stage/:id', component: StageDetailComponent, title: 'Stage Details | AI Engineer Roadmap' },
-  { path: 'course-coverage', component: CourseCoverageComponent, title: '3-Course Coverage Matrix | AI Engineer Roadmap' },
-  { path: 'missing-skills', component: MissingSkillsComponent, title: 'What Is Still Missing? | AI Engineer Roadmap' },
-  { path: 'projects', component: ProjectsComponent, title: 'Portfolio Projects | AI Engineer Roadmap' },
-  { path: 'interview', component: InterviewComponent, title: 'Interview Masterclass | AI Engineer Roadmap' },
-  { path: 'job-ready', component: JobReadyComponent, title: 'Are You Job Ready? | AI Engineer Roadmap' },
-  { path: 'resources', component: ResourcesComponent, title: 'Curated Resources | AI Engineer Roadmap' },
+  { path: '', component: HomeComponent, title: 'عقلي | My Digital Mind' },
+  { path: 'tech', component: RoadmapComponent, title: 'الفص التقني | Tech Vault' },
+  { path: 'roadmap', redirectTo: 'tech', pathMatch: 'full' },
+  { path: 'cinema', component: CinemaComponent, title: 'الفص السينمائي | Cinema' },
+  { path: 'library', component: LibraryComponent, title: 'المكتبة والكتب | Library' },
+  { path: 'languages', component: LanguagesComponent, title: 'اللغات والتواصل | Languages' },
+  { path: 'principles', component: PrinciplesComponent, title: 'المبادئ والأفكار | Principles' },
+  { path: 'stage/:id', component: StageDetailComponent, title: 'تفاصيل المحطة التقنية | Stage Detail' },
+  { path: 'projects', component: ProjectsComponent, title: 'المشاريع | Projects' },
+  { path: 'interview', component: InterviewComponent, title: 'المقابلات | Interview' },
+  { path: 'resources', component: ResourcesComponent, title: 'المصادر | Resources' },
   { path: '**', redirectTo: '' }
 ];
-

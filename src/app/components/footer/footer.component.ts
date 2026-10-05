@@ -27,28 +27,23 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
           </div>
 
           <!-- Col 2: Navigation Links -->
-          <div class="col-lg-2 col-md-3 col-6">
-            <h6 class="footer-heading font-monospace small mb-3">{{ 'footer.quickPath' | trans }}</h6>
+          <div class="col-lg-3 col-md-4 col-6">
+            <h6 class="footer-heading font-monospace small mb-3">فصوص ومحاور العقل</h6>
             <ul class="list-unstyled small mb-0 footer-links">
-              <li><a routerLink="/roadmap">26 Connected Stages</a></li>
-              <li><a routerLink="/stage/01">01 Foundations</a></li>
-              <li><a routerLink="/stage/06">06 Deep Learning</a></li>
-              <li><a routerLink="/stage/09">09 Production RAG</a></li>
-              <li><a routerLink="/stage/14">14 Autonomous Agents</a></li>
-              <li><a routerLink="/stage/19">19 Full-Stack AI SaaS</a></li>
-              <li><a routerLink="/stage/21">21 Cloud & Terraform</a></li>
+              <li><a routerLink="/tech">💻 الفص التقني (AI & Code)</a></li>
+              <li><a routerLink="/cinema">🎬 الفص السينمائي (24 فيلماً)</a></li>
+              <li><a routerLink="/library">📚 فص الكتب والمكتبة (16 كتاباً)</a></li>
+              <li><a routerLink="/languages">🗣️ فص اللغات والإنجليزية (16 محطة)</a></li>
+              <li><a routerLink="/principles">💡 سجل الأفكار وقواعد التفكير</a></li>
             </ul>
           </div>
 
           <!-- Col 3: Practical Resources -->
-          <div class="col-lg-2 col-md-3 col-6">
-            <h6 class="footer-heading font-monospace small mb-3">{{ 'footer.resourcesTitle' | trans }}</h6>
+          <div class="col-lg-3 col-md-4 col-6">
+            <h6 class="footer-heading font-monospace small mb-3">أقسام متخصصة</h6>
             <ul class="list-unstyled small mb-0 footer-links">
-              <li><a routerLink="/course-coverage">{{ 'nav.courseMatrix' | trans }}</a></li>
-              <li><a routerLink="/missing-skills">{{ 'nav.missingSkills' | trans }}</a></li>
-              <li><a routerLink="/projects">{{ 'nav.projects' | trans }} (12)</a></li>
+              <li><a routerLink="/projects">{{ 'nav.projects' | trans }}</a></li>
               <li><a routerLink="/interview">{{ 'nav.interview' | trans }}</a></li>
-              <li><a routerLink="/job-ready">{{ 'nav.jobReady' | trans }}</a></li>
               <li><a routerLink="/resources">{{ 'nav.resources' | trans }}</a></li>
             </ul>
           </div>

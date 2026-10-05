@@ -54,7 +54,7 @@ import { Subscription } from 'rxjs';
 
         <!-- Collapsible Content -->
         <div class="collapse navbar-collapse" [class.show]="menuOpen">
-          <!-- Centered Core Navigation Links (5 Essentials) -->
+          <!-- Centered Core Navigation Links (The Mind Lobes) -->
           <ul class="navbar-nav mx-auto mb-2 mb-xl-0 nav-links-gap">
             <li class="nav-item">
               <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeNav()">
@@ -62,23 +62,28 @@ import { Subscription } from 'rxjs';
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/roadmap" routerLinkActive="active" (click)="closeNav()">
-                {{ 'nav.roadmap' | trans }}
+              <a class="nav-link" routerLink="/tech" routerLinkActive="active" (click)="closeNav()">
+                {{ 'nav.tech' | trans }}
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/projects" routerLinkActive="active" (click)="closeNav()">
-                {{ 'nav.projects' | trans }}
+              <a class="nav-link" routerLink="/cinema" routerLinkActive="active" (click)="closeNav()">
+                {{ 'nav.cinema' | trans }}
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/resources" routerLinkActive="active" (click)="closeNav()">
-                {{ 'nav.resources' | trans }}
+              <a class="nav-link" routerLink="/library" routerLinkActive="active" (click)="closeNav()">
+                {{ 'nav.library' | trans }}
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/interview" routerLinkActive="active" (click)="closeNav()">
-                {{ 'nav.interview' | trans }}
+              <a class="nav-link" routerLink="/languages" routerLinkActive="active" (click)="closeNav()">
+                {{ 'nav.languages' | trans }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/principles" routerLinkActive="active" (click)="closeNav()">
+                {{ 'nav.principles' | trans }}
               </a>
             </li>
           </ul>

@@ -1,688 +1,493 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ROADMAP_STAGES } from '../../data/roadmap.data';
-import { RoadmapStage } from '../../models/roadmap.model';
-import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterModule, TranslatePipe],
   template: `
-    <div class="home-container">
-      <!-- HERO SECTION -->
-      <section class="hero-section py-5 position-relative overflow-hidden">
-        <!-- Subtle Developer Grid & Ambient Glows -->
-        <div class="hero-grid-pattern"></div>
-        <div class="hero-glow-1"></div>
-        <div class="hero-glow-2"></div>
-        
-        <div class="container-xl position-relative z-1 py-4">
-          <div class="row align-items-center g-5">
-            <div class="col-lg-8">
-              <!-- Eyebrow Badge -->
-              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 hero-badge">
-                <span class="pulse-point"></span>
-                <span class="small font-monospace text-uppercase text-cyan fw-semibold">
-                  {{ 'hero.badge' | trans }}
-                </span>
-              </div>
+    <div class="home-mind-container py-4">
+      <div class="container-xl">
 
-              <!-- Main Hero Heading -->
-              <h1 class="hero-title text-white mb-3">
-                {{ 'hero.titlePrefix' | trans }} <span class="gradient-text">{{ 'hero.titleAccent' | trans }}</span>
-              </h1>
-              
-              <!-- Subtitle -->
-              <h2 class="hero-subtitle text-secondary mb-3">
-                {{ 'hero.subtitle' | trans }}
-              </h2>
-
-              <!-- Short Description -->
-              <p class="hero-desc text-secondary leading-relaxed mb-4">
-                {{ 'hero.desc' | trans }}
-              </p>
-
-              <!-- Focused Primary CTAs -->
-              <div class="d-flex flex-wrap gap-3 mb-4">
-                <a routerLink="/roadmap" class="btn btn-primary-action">
-                  <span>{{ 'hero.btnRoadmap' | trans }}</span>
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
-                <a routerLink="/projects" class="btn btn-secondary-action">
-                  <i class="fa-solid fa-diagram-project text-cyan"></i>
-                  <span>{{ 'hero.btnProjects' | trans }}</span>
-                </a>
-              </div>
-
-              <!-- Donezo 4-Card Statistics System -->
-              <div class="row g-2 g-sm-3 mb-2">
-                <!-- Card 1: Featured Forest Card (Total Path) -->
-                <div class="col-6 col-md-3">
-                  <div class="stat-card-donezo featured h-100 d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <span class="stat-card-title small font-monospace">{{ 'stats.stages' | trans }}</span>
-                      <a routerLink="/roadmap" class="stat-arrow-btn text-decoration-none" title="Explore Stages">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                      </a>
-                    </div>
-                    <div class="stat-number-donezo font-monospace fw-bold mb-2">26</div>
-                    <div class="stat-sub-badge mt-auto">
-                      <i class="fa-solid fa-check small text-mint"></i>
-                      <span>26/26 Path</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Card 2: Topics Card -->
-                <div class="col-6 col-md-3">
-                  <div class="stat-card-donezo h-100 d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <span class="stat-card-title small text-secondary font-monospace">{{ 'stats.topics' | trans }}</span>
-                      <a routerLink="/roadmap" class="stat-arrow-btn text-decoration-none" title="View Topics">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                      </a>
-                    </div>
-                    <div class="stat-number-donezo font-monospace fw-bold mb-2 text-primary">300+</div>
-                    <div class="stat-sub-badge mt-auto">
-                      <i class="fa-solid fa-bolt small text-warning"></i>
-                      <span>3 Curricula</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Card 3: Projects Card -->
-                <div class="col-6 col-md-3">
-                  <div class="stat-card-donezo h-100 d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <span class="stat-card-title small text-secondary font-monospace">{{ 'stats.projects' | trans }}</span>
-                      <a routerLink="/projects" class="stat-arrow-btn text-decoration-none" title="View Projects">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                      </a>
-                    </div>
-                    <div class="stat-number-donezo font-monospace fw-bold mb-2 text-primary">12</div>
-                    <div class="stat-sub-badge mt-auto">
-                      <i class="fa-solid fa-diagram-project small text-cyan"></i>
-                      <span>Production</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Card 4: Master Courses Card -->
-                <div class="col-6 col-md-3">
-                  <div class="stat-card-donezo h-100 d-flex flex-column justify-content-between">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <span class="stat-card-title small text-secondary font-monospace">{{ 'stats.courses' | trans }}</span>
-                      <a routerLink="/course-coverage" class="stat-arrow-btn text-decoration-none" title="View Matrix">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                      </a>
-                    </div>
-                    <div class="stat-number-donezo font-monospace fw-bold mb-2 text-primary">3</div>
-                    <div class="stat-sub-badge mt-auto">
-                      <i class="fa-solid fa-video small text-emerald"></i>
-                      <span>523+ Lectures</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Hero Right: Interactive Journey Card & Donezo Time Tracker Widget -->
-            <div class="col-lg-4">
-              <div class="journey-preview-card p-3 p-sm-4 mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="badge badge-subtle-primary font-monospace">
-                    {{ 'journey.badge' | trans }}
-                  </span>
-                  <span class="small text-secondary font-monospace">{{ stages.length }} {{ 'journey.nodes' | trans }}</span>
-                </div>
-                
-                <h5 class="text-white mb-2">{{ 'journey.title' | trans }}</h5>
-                <p class="text-secondary small mb-3">
-                  {{ 'journey.desc' | trans }}
-                </p>
-
-                <!-- Mini Flow Nodes Preview -->
-                <div class="mini-flow-list">
-                  <a 
-                    *ngFor="let s of previewStages" 
-                    [routerLink]="['/stage', s.id]"
-                    class="mini-node-item d-flex align-items-center gap-3 p-2 rounded text-decoration-none"
-                  >
-                    <span class="mini-node-num font-monospace">{{ s.id }}</span>
-                    <div class="flex-grow-1 overflow-hidden">
-                      <div class="mini-node-title text-truncate">{{ s.title }}</div>
-                      <div class="d-flex align-items-center gap-1">
-                        <span class="mini-node-tag">{{ s.category }}</span>
-                        <span class="coverage-badge mini-cov" [attr.data-cov]="s.coverageStatus">
-                          <span class="cov-dot"></span>
-                          {{ s.coverageStatus }}
-                        </span>
-                      </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-secondary small"></i>
-                  </a>
-                </div>
-
-                <div class="mt-3 pt-2 text-center">
-                  <a routerLink="/roadmap" class="btn btn-sm btn-view-all w-100">
-                    {{ 'journey.btnViewAll' | trans }} <i class="fa-solid fa-arrow-right ms-1"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3-COURSE ARCHITECTURE PILLARS -->
-      <section class="py-5 pillars-section border-top">
-        <div class="container-xl">
-          <div class="text-center max-w-750 mx-auto mb-5">
-            <span class="badge badge-subtle-primary mb-2 font-monospace">
-              {{ 'synergy.badge' | trans }}
-            </span>
-            <h2 class="text-white fw-bold mb-2">{{ 'synergy.title' | trans }}</h2>
-            <p class="text-secondary leading-relaxed">
-              {{ 'synergy.desc' | trans }}
-            </p>
-          </div>
-
-          <div class="row g-4">
-            <!-- Course 1 Pillar -->
-            <div class="col-md-4">
-              <div class="pillar-card h-100 p-4 border border-course-1">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="course-badge" data-course="COURSE 01">COURSE 01</span>
-                  <span class="font-monospace text-muted small">Part 01</span>
-                </div>
-                <h5 class="text-white mb-2">{{ 'course1.title' | trans }}</h5>
-                <p class="text-secondary small leading-relaxed mb-3">
-                  {{ 'course1.desc' | trans }}
-                </p>
-                <div class="font-monospace text-secondary small mt-auto">{{ 'course1.meta' | trans }}</div>
-              </div>
-            </div>
-
-            <!-- Course 2 Pillar -->
-            <div class="col-md-4">
-              <div class="pillar-card h-100 p-4 border border-course-2">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="course-badge" data-course="COURSE 02">COURSE 02</span>
-                  <span class="font-monospace text-muted small">Part 02</span>
-                </div>
-                <h5 class="text-white mb-2">{{ 'course2.title' | trans }}</h5>
-                <p class="text-secondary small leading-relaxed mb-3">
-                  {{ 'course2.desc' | trans }}
-                </p>
-                <div class="font-monospace text-secondary small mt-auto">{{ 'course2.meta' | trans }}</div>
-              </div>
-            </div>
-
-            <!-- Course 3 Pillar -->
-            <div class="col-md-4">
-              <div class="pillar-card h-100 p-4 border border-course-3">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="course-badge" data-course="COURSE 03">COURSE 03</span>
-                  <span class="font-monospace text-muted small">Part 03</span>
-                </div>
-                <h5 class="text-white mb-2">{{ 'course3.title' | trans }}</h5>
-                <p class="text-secondary small leading-relaxed mb-3">
-                  {{ 'course3.desc' | trans }}
-                </p>
-                <div class="font-monospace text-secondary small mt-auto">{{ 'course3.meta' | trans }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- STAGES GRID OVERVIEW -->
-      <section class="py-5 border-top">
-        <div class="container-xl">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
-            <div>
-              <span class="badge badge-subtle-primary mb-2 font-monospace">
-                {{ 'grid.badge' | trans }}
+        <!-- ============================================================= -->
+        <!-- 1. HERO IDENTITY: WELCOME TO MY MIND                         -->
+        <!-- ============================================================= -->
+        <section class="mind-hero-section p-4 p-md-5 mb-5 rounded-4 position-relative overflow-hidden">
+          <div class="hero-grid-pattern"></div>
+          
+          <div class="position-relative z-1">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill hero-badge mb-3">
+              <span class="pulse-point"></span>
+              <span class="small font-monospace text-uppercase fw-bold text-pine">
+                {{ currentLang === 'ar' ? 'عقلي الرقمي المفتوح · SECOND BRAIN' : 'OPEN DIGITAL MIND · SECOND BRAIN' }}
               </span>
-              <h2 class="text-white fw-bold mb-1">{{ 'grid.title' | trans }}</h2>
-              <p class="text-secondary small mb-0">{{ 'grid.sub' | trans }}</p>
             </div>
-            <a routerLink="/roadmap" class="btn btn-sm btn-secondary-action">
-              {{ 'grid.openRoadmap' | trans }} <i class="fa-solid fa-arrow-right ms-1"></i>
-            </a>
+
+            <h1 class="hero-title fw-bold mb-3">
+              {{ currentLang === 'ar' ? 'مرحباً بك في' : 'Welcome to' }} 
+              <span class="hero-brand-accent">{{ currentLang === 'ar' ? 'عقلي' : 'My Digital Brain' }}</span>
+            </h1>
+
+            <p class="hero-desc text-secondary leading-relaxed mb-4">
+              {{ currentLang === 'ar' 
+                ? 'مساحتي الرقمية المفتوحة لتوثيق كل ما يدور في ذهني: هندسة الذكاء الاصطناعي، روائع السينما العالمية، خلاصة الكتب التي غيرت تفكيري، رحلتي مع اللغة الإنجليزية، وقواعدي في اتخاذ القرار.'
+                : 'A curated personal operating system and second brain: synthesizing AI engineering, transformative cinema, books that rewired my thinking, English fluency milestones, and operating life principles.' }}
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 gap-sm-3 mb-4">
+              <a routerLink="/tech" class="btn btn-primary-clean">
+                <span>{{ currentLang === 'ar' ? 'الفص التقني (AI & Code)' : 'Tech & AI Vault' }}</span>
+                <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
+              </a>
+              <a routerLink="/cinema" class="btn btn-secondary-clean">
+                <i class="fa-solid fa-film text-pine me-1"></i>
+                <span>{{ currentLang === 'ar' ? 'السينما والذوق' : 'Cinema Lobe' }}</span>
+              </a>
+              <a routerLink="/library" class="btn btn-secondary-clean">
+                <i class="fa-solid fa-book-open text-pine me-1"></i>
+                <span>{{ currentLang === 'ar' ? 'المكتبة والكتب' : 'Library' }}</span>
+              </a>
+              <a routerLink="/principles" class="btn btn-secondary-clean">
+                <i class="fa-solid fa-compass text-pine me-1"></i>
+                <span>{{ currentLang === 'ar' ? 'قواعد التفكير' : 'Principles' }}</span>
+              </a>
+            </div>
+
+            <!-- Live Mind Stats Row -->
+            <div class="row g-2 g-md-3 pt-3 border-top">
+              <div class="col-6 col-md-3">
+                <div class="stat-pill-card p-3 rounded-3">
+                  <div class="text-secondary small font-monospace mb-1">{{ currentLang === 'ar' ? 'محطات التقنية' : 'Tech Stages' }}</div>
+                  <div class="fw-bold font-monospace stat-num text-pine">26 {{ currentLang === 'ar' ? 'محطة' : 'Nodes' }}</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="stat-pill-card p-3 rounded-3">
+                  <div class="text-secondary small font-monospace mb-1">{{ currentLang === 'ar' ? 'روائع السينما' : 'Cinema Works' }}</div>
+                  <div class="fw-bold font-monospace stat-num text-pine">24 {{ currentLang === 'ar' ? 'فيلماً' : 'Films' }}</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="stat-pill-card p-3 rounded-3">
+                  <div class="text-secondary small font-monospace mb-1">{{ currentLang === 'ar' ? 'أعظم الكتب' : 'Core Books' }}</div>
+                  <div class="fw-bold font-monospace stat-num text-pine">16 {{ currentLang === 'ar' ? 'كتاباً' : 'Books' }}</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="stat-pill-card p-3 rounded-3">
+                  <div class="text-secondary small font-monospace mb-1">{{ currentLang === 'ar' ? 'إتقان الإنجليزية' : 'English Fluency' }}</div>
+                  <div class="fw-bold font-monospace stat-num text-pine">16 {{ currentLang === 'ar' ? 'محطة' : 'Milestones' }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- 2. NOW SECTION: WHAT'S ON MY MIND RIGHT NOW                  -->
+        <!-- ============================================================= -->
+        <section class="now-focus-card p-4 p-md-4 mb-5 rounded-4">
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2">
+              <span class="now-dot"></span>
+              <h3 class="fw-bold mb-0 now-title">
+                {{ currentLang === 'ar' ? 'ما أركز عليه في هذه الفترة (/now)' : 'Current Mind Focus (/now)' }}
+              </h3>
+            </div>
+            <span class="small text-muted font-monospace">
+              {{ currentLang === 'ar' ? 'محدّث تلقائياً' : 'Live Focus' }}
+            </span>
           </div>
 
           <div class="row g-3">
-            <div *ngFor="let stage of previewStages" class="col-lg-4 col-md-6">
-              <a [routerLink]="['/stage', stage.id]" class="stage-grid-card p-3 text-decoration-none d-block h-100">
-                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-1">
-                  <div class="d-flex align-items-center gap-1 flex-wrap">
-                    <span class="stage-pill font-monospace">Stage {{ stage.id }}</span>
-                    <span *ngFor="let c of stage.courseSources" class="course-badge" [attr.data-course]="c">
-                      {{ c }}
-                    </span>
+            <div class="col-md-3 col-sm-6">
+              <div class="now-item-box p-3 h-100 rounded-3">
+                <div class="now-item-label small font-monospace text-pine mb-1">
+                  <i class="fa-solid fa-code me-1"></i>{{ currentLang === 'ar' ? 'المشروع البرمجي:' : 'Active Project:' }}
+                </div>
+                <div class="small fw-semibold text-primary mb-1">LangGraph Multi-Agent Architecture</div>
+                <div class="text-muted small">بناء وتنسيق وكلاء أذكياء يتخذون قرارات متسلسلة ويحفظون الحالة.</div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+              <div class="now-item-box p-3 h-100 rounded-3">
+                <div class="now-item-label small font-monospace text-mint mb-1">
+                  <i class="fa-solid fa-book me-1"></i>{{ currentLang === 'ar' ? 'الكتاب الحالي:' : 'Current Book:' }}
+                </div>
+                <div class="small fw-semibold text-primary mb-1">Antifragile — Nassim Taleb</div>
+                <div class="text-muted small">كيف نستفيد من الصدمات والفوضى لنصبح أقوى وأقل عرضة للهشاشة.</div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+              <div class="now-item-box p-3 h-100 rounded-3">
+                <div class="now-item-label small font-monospace text-warning mb-1">
+                  <i class="fa-solid fa-film me-1"></i>{{ currentLang === 'ar' ? 'آخر فيلم ألهمني:' : 'Recent Film:' }}
+                </div>
+                <div class="small fw-semibold text-primary mb-1">Interstellar (2014)</div>
+                <div class="text-muted small">تأملات في الفيزياء الفلكية والنسبية وقوة المشاعر الإنسانية عبر الأبعاد.</div>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+              <div class="now-item-box p-3 h-100 rounded-3">
+                <div class="now-item-label small font-monospace text-pine mb-1">
+                  <i class="fa-solid fa-microphone me-1"></i>{{ currentLang === 'ar' ? 'تحدي الإنجليزية:' : 'English Challenge:' }}
+                </div>
+                <div class="small fw-semibold text-primary mb-1">Thinking in English Daily</div>
+                <div class="text-muted small">إلغاء الترجمة الذهنية الداخلية تماماً والتحدث التلقائي المباشر.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- 3. THE 5 BRAIN LOBES: CORE PORTALS                            -->
+        <!-- ============================================================= -->
+        <section class="lobes-section mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+              <span class="small font-monospace text-pine fw-bold text-uppercase">
+                {{ currentLang === 'ar' ? 'فصوص ومحاور العقل' : 'The 5 Brain Lobes' }}
+              </span>
+              <h2 class="fw-bold mb-0 lobes-heading">
+                {{ currentLang === 'ar' ? 'استكشف مساحات التفكير والمعرفة' : 'Explore The Cognitive Vaults' }}
+              </h2>
+            </div>
+          </div>
+
+          <div class="row g-3 g-md-4">
+            <!-- 01: Tech & AI Lobe -->
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="lobe-card h-100 p-4 d-flex flex-column justify-content-between rounded-4">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="lobe-number font-monospace">01</span>
+                    <span class="lobe-tag font-monospace">26 {{ currentLang === 'ar' ? 'محطة' : 'Stages' }}</span>
                   </div>
-                  <span class="coverage-badge mini-cov" [attr.data-cov]="stage.coverageStatus">
-                    <span class="cov-dot"></span>
-                    {{ stage.coverageStatus }}
-                  </span>
+                  <h4 class="lobe-title fw-bold mb-2">
+                    {{ currentLang === 'ar' ? 'الفص التقني (هندسة الذكاء الاصطناعي)' : 'Tech & AI Engineering' }}
+                  </h4>
+                  <p class="lobe-desc text-secondary small mb-4">
+                    {{ currentLang === 'ar'
+                      ? 'مسار متكامل من بايثون والرياضيات والشبكات العصبية، إلى الـ RAG المتقدم والوكلاء الأذكياء بـ LangGraph، ونشر النماذج السحابية بـ Terraform.'
+                      : 'From Python tensor mechanics to production RAG, LangGraph multi-agent teams, multi-cloud Terraform, and enterprise observability.' }}
+                  </p>
                 </div>
-                <h6 class="text-white fw-bold mb-1">{{ stage.title }}</h6>
-                <p class="text-secondary small mb-3 line-clamp-2">{{ stage.tagline }}</p>
-                <div class="d-flex flex-wrap gap-1">
-                  <span *ngFor="let t of stage.tools.slice(0, 3)" class="tech-chip">{{ t }}</span>
-                  <span *ngIf="stage.tools.length > 3" class="tech-chip text-cyan">+{{ stage.tools.length - 3 }}</span>
+                <a routerLink="/tech" class="btn btn-sm btn-lobe-action w-100">
+                  <span>{{ currentLang === 'ar' ? 'دخول الفص التقني' : 'Explore Tech Vault' }}</span>
+                  <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- 02: Cinema & Taste Lobe -->
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="lobe-card h-100 p-4 d-flex flex-column justify-content-between rounded-4">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="lobe-number font-monospace">02</span>
+                    <span class="lobe-tag font-monospace">24 {{ currentLang === 'ar' ? 'فيلماً' : 'Films' }}</span>
+                  </div>
+                  <h4 class="lobe-title fw-bold mb-2">
+                    {{ currentLang === 'ar' ? 'الفص السينمائي (روائع الفن السابع)' : 'Cinema & Film Masterpieces' }}
+                  </h4>
+                  <p class="lobe-desc text-secondary small mb-4">
+                    {{ currentLang === 'ar'
+                      ? 'مكتبة مختارة لأعظم الأعمال السينمائية العالمية في الخيال العلمي، الدراما الإنسانية الكبرى، الإثارة النفسية، والسير الذاتية المؤثرة مع مبرر المشاهدة.'
+                      : 'A curated journey through 24 life-altering cinema masterpieces across Sci-Fi, psychological thriller, inspirational drama, and biopics.' }}
+                  </p>
                 </div>
-              </a>
+                <a routerLink="/cinema" class="btn btn-sm btn-lobe-action w-100">
+                  <span>{{ currentLang === 'ar' ? 'دخول الفص السينمائي' : 'Explore Cinema' }}</span>
+                  <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- 03: Library & Books Lobe -->
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="lobe-card h-100 p-4 d-flex flex-column justify-content-between rounded-4">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="lobe-number font-monospace">03</span>
+                    <span class="lobe-tag font-monospace">16 {{ currentLang === 'ar' ? 'كتاباً' : 'Books' }}</span>
+                  </div>
+                  <h4 class="lobe-title fw-bold mb-2">
+                    {{ currentLang === 'ar' ? 'فص الكتب والمكتبة (خلاصة القراءات)' : 'Library & Reading Vault' }}
+                  </h4>
+                  <p class="lobe-desc text-secondary small mb-4">
+                    {{ currentLang === 'ar'
+                      ? 'أهم الكتب التي غيرت طريقة تفكيري في بناء العادات (Atomic Habits)، التركيز العميق (Deep Work)، سيكولوجية المال، والحكمة الرواقية لماركوس أوريليوس.'
+                      : 'Core reading canon on habit loops, deep cognitive work, mental models, wealth psychology, and stoic philosophy with key takeaways.' }}
+                  </p>
+                </div>
+                <a routerLink="/library" class="btn btn-sm btn-lobe-action w-100">
+                  <span>{{ currentLang === 'ar' ? 'دخول المكتبة' : 'Explore Library' }}</span>
+                  <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- 04: Languages Lobe -->
+            <div class="col-lg-6 col-md-6 col-12">
+              <div class="lobe-card h-100 p-4 d-flex flex-column justify-content-between rounded-4">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="lobe-number font-monospace">04</span>
+                    <span class="lobe-tag font-monospace">16 {{ currentLang === 'ar' ? 'محطة' : 'Milestones' }}</span>
+                  </div>
+                  <h4 class="lobe-title fw-bold mb-2">
+                    {{ currentLang === 'ar' ? 'فص اللغات والتواصل (إتقان الإنجليزية)' : 'Languages & Communication' }}
+                  </h4>
+                  <p class="lobe-desc text-secondary small mb-4">
+                    {{ currentLang === 'ar'
+                      ? 'مسار عملي للطلاقة الحقيقية: تدريب الأذن وصوت الشوا السحري، التفكير بالإنجليزية، التظليل الصوتي (Shadowing)، وفهم المتحدثين الأصليين.'
+                      : 'Pragmatic spoken fluency roadmap: ear training, Schwa sound, sentence pattern instinct, daily shadowing, and connected speech decoding.' }}
+                  </p>
+                </div>
+                <a routerLink="/languages" class="btn btn-sm btn-lobe-action w-100">
+                  <span>{{ currentLang === 'ar' ? 'دخول فص اللغات' : 'Explore Languages' }}</span>
+                  <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- 05: Principles Lobe -->
+            <div class="col-lg-6 col-12">
+              <div class="lobe-card h-100 p-4 d-flex flex-column justify-content-between rounded-4">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="lobe-number font-monospace">05</span>
+                    <span class="lobe-tag font-monospace">6 {{ currentLang === 'ar' ? 'مبادئ أساسية' : 'Heuristics' }}</span>
+                  </div>
+                  <h4 class="lobe-title fw-bold mb-2">
+                    {{ currentLang === 'ar' ? 'سجل الأفكار والمبادئ (قواعد التشغيل)' : 'Operating Rules & Principles' }}
+                  </h4>
+                  <p class="lobe-desc text-secondary small mb-4">
+                    {{ currentLang === 'ar'
+                      ? 'دستوري الشخصي في اتخاذ القرار وإدارة الطاقة: ثنائية السيطرة، الأنظمة تهزم الأهداف، مبدأ القلب والعكس لتشارلي مانجر، والمخاطرة غير المتماثلة.'
+                      : 'Mental software and rules for decision making: dichotomy of control, systems over goals, Charlie Munger inversion, and asymmetric upside.' }}
+                  </p>
+                </div>
+                <a routerLink="/principles" class="btn btn-sm btn-lobe-action w-100">
+                  <span>{{ currentLang === 'ar' ? 'دخول المبادئ' : 'Explore Principles' }}</span>
+                  <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
+                </a>
+              </div>
             </div>
           </div>
+        </section>
 
-          <!-- Explore All 26 Stages Action -->
-          <div class="mt-4 pt-3 text-center">
-            <a routerLink="/roadmap" class="btn btn-primary-action px-4 py-2">
-              <span>{{ isArabic ? 'استكشف الـ 26 مرحلة كاملة في خريطة الطريق' : 'Explore All 26 Stages in Interactive Roadmap' }}</span>
-              <i class="fa-solid fa-arrow-right ms-2"></i>
-            </a>
+        <!-- ============================================================= -->
+        <!-- 4. MIND SPARKS: QUOTES THAT SHAPED MY MIND                    -->
+        <!-- ============================================================= -->
+        <section class="sparks-section p-4 p-md-5 rounded-4 mb-4">
+          <div class="text-center max-w-600 mx-auto mb-4">
+            <span class="small font-monospace text-pine fw-bold text-uppercase">
+              {{ currentLang === 'ar' ? 'شذرات فكرية' : 'Mind Sparks' }}
+            </span>
+            <h3 class="fw-bold sparks-heading mb-2">
+              {{ currentLang === 'ar' ? 'أفكار ترسخت في عقلي' : 'Anchors of My Perspective' }}
+            </h3>
           </div>
-        </div>
-      </section>
 
-      <!-- CALL TO ACTION BANNER -->
-      <section class="py-5 my-4">
-        <div class="container-xl">
-          <div class="cta-banner p-4 p-md-5 text-center position-relative overflow-hidden">
-            <div class="cta-glow"></div>
-            <h2 class="text-white fw-bold mb-3">{{ 'cta.title' | trans }}</h2>
-            <p class="text-secondary max-w-650 mx-auto leading-relaxed mb-4">
-              {{ 'cta.desc' | trans }}
-            </p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-              <a routerLink="/roadmap" class="btn btn-primary-action">
-                {{ 'cta.launchRoadmap' | trans }} <i class="fa-solid fa-arrow-right ms-2"></i>
-              </a>
-              <a routerLink="/course-coverage" class="btn btn-secondary-action">
-                {{ 'cta.viewMatrix' | trans }} <i class="fa-solid fa-table-columns ms-2"></i>
-              </a>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="spark-box p-3 h-100 rounded-3">
+                <p class="small text-secondary fst-italic mb-2">
+                  "أنت لا ترتقي لمستوى أهدافك، بل تهبط لمستوى أنظمتك اليومية الصغيرة."
+                </p>
+                <div class="small fw-bold text-pine font-monospace">— جيمس كلير (Atomic Habits)</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="spark-box p-3 h-100 rounded-3">
+                <p class="small text-secondary fst-italic mb-2">
+                  "أنت تملك السيطرة على عقلك وأفكارك فقط، لا على الأحداث الخارجية؛ أدرك هذا وستجد القوة والسلام."
+                </p>
+                <div class="small fw-bold text-pine font-monospace">— ماركوس أوريليوس (Meditations)</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="spark-box p-3 h-100 rounded-3">
+                <p class="small text-secondary fst-italic mb-2">
+                  "النجاح المستدام يأتي من تجنب الحماقات المتكررة باستمرار، بدلاً من محاولة إثبات العبقرية الاستثنائية."
+                </p>
+                <div class="small fw-bold text-pine font-monospace">— تشارلي مانجر (Poor Charlie's Almanack)</div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+      </div>
     </div>
   `,
   styles: [`
-    .home-container {
-      position: relative;
+    .home-mind-container { position: relative; }
+
+    /* HERO */
+    .mind-hero-section {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-sm);
     }
     .hero-grid-pattern {
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-      background-size: 24px 24px;
-      pointer-events: none;
-    }
-    .hero-glow-1 {
-      position: absolute;
-      top: -100px;
-      left: 10%;
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(circle, rgba(21, 82, 57, 0.14) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-glow-2 {
-      position: absolute;
-      top: 100px;
-      right: 5%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(52, 211, 153, 0.12) 0%, transparent 70%);
-      pointer-events: none;
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(21, 82, 57, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px; pointer-events: none; opacity: 0.7;
     }
     .hero-badge {
-      background: var(--surface-card);
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
     }
     .pulse-point {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent-mint);
-      box-shadow: 0 0 8px var(--accent-mint);
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent-mint); box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
       display: inline-block;
     }
     .hero-title {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
+      font-size: 2.3rem; color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
     }
-    .gradient-text {
-      background: var(--brand-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-subtitle {
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      font-weight: 400;
-      line-height: 1.5;
+    .hero-brand-accent {
+      color: var(--primary); text-decoration: underline; text-underline-offset: 8px;
     }
     .hero-desc {
-      font-size: 0.95rem;
-      max-width: 680px;
+      font-size: 1.02rem; max-width: 780px;
+      font-family: var(--font-arabic-body), 'Alexandria', sans-serif;
     }
-    .btn-primary-action {
-      background: var(--primary);
-      color: #FFFFFF !important;
-      border: 1px solid var(--primary);
-      padding: 10px 22px;
-      border-radius: var(--radius-pill);
-      font-weight: 600;
-      font-size: 0.88rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      box-shadow: 0 2px 10px var(--primary-glow);
-    }
-    .btn-primary-action:hover {
-      background: var(--primary-hover);
-      border-color: var(--primary-hover);
-      box-shadow: 0 4px 18px var(--primary-glow);
-      transform: translateY(-2px);
-    }
-    .btn-secondary-action {
-      background: var(--surface);
-      color: var(--text-primary) !important;
-      border: 1px solid var(--border-subtle);
-      padding: 10px 20px;
-      border-radius: var(--radius-pill);
-      font-weight: 600;
-      font-size: 0.88rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      box-shadow: var(--shadow-sm);
-    }
-    .btn-secondary-action:hover {
-      border-color: var(--primary);
-      background: var(--surface-hover);
-      color: var(--primary) !important;
-      transform: translateY(-2px);
-    }
-    .stat-number-donezo {
-      font-size: 1.85rem;
-      line-height: 1;
-    }
-    .journey-preview-card {
-      background: var(--surface-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-sm);
-    }
-    .text-mint {
-      color: var(--accent-mint) !important;
-    }
-    .mini-flow-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .mini-node-item {
-      background: var(--surface-base);
-      border: 1px solid var(--border-subtle);
+    .btn-primary-clean {
+      background: var(--primary); border: 1px solid var(--primary);
+      color: #FFFFFF !important; font-size: 0.85rem; font-weight: 600;
+      padding: 8px 18px; border-radius: var(--radius-sm);
+      text-decoration: none !important; display: inline-flex; align-items: center; gap: 8px;
       transition: all 0.15s ease;
     }
-    .mini-node-item:hover {
-      border-color: var(--primary-light);
-      background: var(--surface-hover);
-      transform: translateX(3px);
+    .btn-primary-clean:hover {
+      background: var(--primary-hover); transform: translateY(-1px);
     }
-    .mini-node-num {
-      width: 28px;
-      height: 28px;
+    .btn-secondary-clean {
+      background: var(--surface-elevated); border: 1px solid var(--border-subtle);
+      color: var(--text-primary) !important; font-size: 0.85rem; font-weight: 600;
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      text-decoration: none !important; display: inline-flex; align-items: center; gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn-secondary-clean:hover {
+      border-color: var(--primary); color: var(--primary) !important;
+      background: var(--surface-hover); transform: translateY(-1px);
+    }
+    .stat-pill-card {
+      background: var(--surface-elevated); border: 1px solid var(--border-subtle);
+    }
+    .stat-num {
+      font-size: 1.15rem;
+    }
+
+    /* NOW SECTION */
+    .now-focus-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-sm);
+    }
+    .now-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #10B981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .now-title {
+      font-size: 1.25rem; color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
+    }
+    .now-item-box {
+      background: var(--surface-elevated); border: 1px solid var(--border-subtle);
+    }
+
+    /* LOBES */
+    .lobes-heading {
+      font-size: 1.7rem; color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
+    }
+    .lobe-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+    .lobe-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .lobe-number {
+      font-size: 1rem; font-weight: 800; color: var(--primary);
+      background: var(--primary-subtle); padding: 3px 10px; border-radius: var(--radius-sm);
+      border: 1px solid rgba(21, 82, 57, 0.15);
+    }
+    .lobe-tag {
+      font-size: 0.72rem; color: var(--text-muted);
+      background: var(--surface-elevated); padding: 3px 8px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+    .lobe-title {
+      font-size: 1.15rem; color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
+    }
+    .lobe-desc {
+      line-height: 1.65;
+      font-family: var(--font-arabic-body), 'Alexandria', sans-serif;
+    }
+    .btn-lobe-action {
       background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      display: grid;
-      place-items: center;
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-      flex-shrink: 0;
-    }
-    .mini-node-title {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .mini-node-tag {
-      font-size: 0.68rem;
-      color: var(--text-secondary);
-      font-family: var(--font-mono);
-    }
-    .btn-view-all {
-      background: var(--surface-base);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 7px 12px;
-      border-radius: var(--radius-sm);
+      color: var(--text-primary) !important;
+      font-weight: 600; padding: 7px 12px; border-radius: var(--radius-sm);
+      text-decoration: none !important; display: flex; align-items: center; justify-content: space-between;
       transition: all 0.15s ease;
     }
-    .btn-view-all:hover {
-      border-color: var(--primary-light);
-      color: var(--primary-light);
+    .btn-lobe-action:hover {
+      background: var(--primary); border-color: var(--primary);
+      color: #FFFFFF !important;
     }
 
-
-    /* Pillars */
-    .pillar-card {
-      background: var(--surface-card);
-      border-radius: var(--radius-lg);
-      transition: all 0.2s ease;
-    }
-    .pillar-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-    .border-course-1 { border-color: rgba(59, 130, 246, 0.3) !important; }
-    .border-course-2 { border-color: rgba(6, 182, 212, 0.3) !important; }
-    .border-course-3 { border-color: rgba(168, 85, 247, 0.3) !important; }
-    
-    .course-badge {
-      font-size: 0.68rem;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: var(--radius-sm);
-      display: inline-block;
-    }
-    .course-badge[data-course="COURSE 01"] {
-      background: rgba(59, 130, 246, 0.12);
-      color: #60A5FA;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-    }
-    .course-badge[data-course="COURSE 02"] {
-      background: rgba(6, 182, 212, 0.12);
-      color: #22D3EE;
-      border: 1px solid rgba(6, 182, 212, 0.3);
-    }
-    .course-badge[data-course="COURSE 03"] {
-      background: rgba(168, 85, 247, 0.12);
-      color: #C084FC;
-      border: 1px solid rgba(168, 85, 247, 0.3);
-    }
-
-    .feature-card {
-      background: var(--surface-card);
-      border-radius: var(--radius-lg);
-      transition: all 0.2s ease;
-    }
-    .feature-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-    .border-cyan-subtle { border-color: rgba(6, 182, 212, 0.25) !important; }
-    .border-warning-subtle { border-color: rgba(234, 179, 8, 0.25) !important; }
-
-    /* Stages Grid */
-    .stage-grid-card {
+    /* SPARKS */
+    .sparks-section {
       background: var(--surface-card);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      transition: all 0.15s ease;
+      box-shadow: var(--shadow-sm);
     }
-    .stage-grid-card:hover {
-      border-color: var(--border-hover);
-      background: var(--surface-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+    .sparks-heading {
+      font-size: 1.35rem; color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
     }
-    .stage-pill {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      background: var(--surface-base);
-      border: 1px solid var(--border-subtle);
-      padding: 1px 6px;
-      border-radius: var(--radius-sm);
-    }
-    .coverage-badge.mini-cov {
-      font-size: 0.65rem;
-      padding: 1px 6px;
-    }
-    .coverage-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      border-radius: var(--radius-sm);
-      padding: 2px 7px;
-    }
-    .coverage-badge[data-cov="Covered"] {
-      background: rgba(16, 185, 129, 0.10);
-      color: #34D399;
-      border: 1px solid rgba(16, 185, 129, 0.25);
-    }
-    .coverage-badge[data-cov="Partially Covered"] {
-      background: rgba(234, 179, 8, 0.10);
-      color: #FACC15;
-      border: 1px solid rgba(234, 179, 8, 0.25);
-    }
-    .coverage-badge[data-cov="Not Covered"] {
-      background: rgba(239, 68, 68, 0.10);
-      color: #F87171;
-      border: 1px solid rgba(239, 68, 68, 0.25);
-    }
-    .cov-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-    .tech-chip {
-      font-size: 0.7rem;
-      font-family: var(--font-mono);
-      color: var(--text-secondary);
-      background: var(--surface-base);
-      border: 1px solid var(--border-subtle);
-      padding: 1px 6px;
-      border-radius: var(--radius-sm);
-    }
-    .badge-subtle-primary {
-      background: var(--primary-subtle);
-      color: var(--primary-light);
-      border: 1px solid rgba(21, 82, 57, 0.25);
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-    }
-    .badge-subtle-success {
-      background: rgba(16, 185, 129, 0.10);
-      color: #34D399;
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-    }
-    .cta-banner {
-      background: var(--surface-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-lg);
-    }
-    .cta-glow {
-      position: absolute;
-      top: -50%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 500px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(21, 82, 57, 0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .max-w-750 { max-width: 750px; }
-    .max-w-650 { max-width: 650px; }
-    .text-cyan { color: var(--accent-cyan) !important; }
-    .text-purple { color: var(--accent-violet) !important; }
-    .text-emerald { color: var(--success) !important; }
-    .line-clamp-2 {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .border-top {
-      border-color: var(--border-subtle) !important;
+    .spark-box {
+      background: var(--surface-elevated); border: 1px solid var(--border-subtle);
+      display: flex; flex-direction: column; justify-content: space-between;
     }
 
-    @media (max-width: 575.98px) {
-      .hero-section {
-        padding-top: 1.5rem !important;
-        padding-bottom: 2rem !important;
-      }
-      .btn-primary-action, .btn-secondary-action {
-        width: 100%;
-        justify-content: center;
-        padding: 9px 16px;
-        font-size: 0.82rem;
-      }
-      .hero-title {
-        font-size: 1.85rem;
-      }
-      .hero-subtitle {
-        font-size: 0.95rem;
-      }
-      .hero-desc {
-        font-size: 0.85rem;
-      }
+    .text-pine { color: var(--primary) !important; }
+    .text-mint { color: var(--accent-mint) !important; }
+
+    @media (max-width: 767.98px) {
+      .hero-title { font-size: 1.75rem; }
     }
   `]
 })
 export class HomeComponent implements OnInit {
-  stages: RoadmapStage[] = ROADMAP_STAGES;
-  previewStages: RoadmapStage[] = [];
-
   constructor(public transService: TranslationService) {}
 
-  ngOnInit() {
-    this.previewStages = [
-      this.stages[0],  // 01 Python Foundations
-      this.stages[5],  // 06 Deep Learning & PyTorch
-      this.stages[8],  // 09 RAG Ingestion & Chunking
-      this.stages[13], // 14 Autonomous Agents & ReAct
-      this.stages[18], // 19 Full-Stack AI SaaS (FastAPI & Next.js)
-      this.stages[20], // 21 Infrastructure as Code with Terraform
-    ];
-  }
+  ngOnInit() {}
 
-  get isArabic(): boolean {
-    return this.transService.isRtl;
+  get currentLang(): string {
+    return this.transService.currentLang;
   }
 }
-

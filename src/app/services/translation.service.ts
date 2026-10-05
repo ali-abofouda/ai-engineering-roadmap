@@ -11,18 +11,23 @@ export interface TranslationDictionary {
 }
 
 export const TRANSLATIONS: TranslationDictionary = {
-  // Navigation
-  'nav.brandTitle': { en: 'AI Engineer Roadmap', ar: 'خارطة طريق مهندس AI' },
-  'nav.brandSub': { en: 'From Fundamentals to Production AI', ar: 'من الأساسيات إلى الذكاء الاصطناعي الإنتاجي' },
+  // Navigation - My Mind (عقلي)
+  'nav.brandTitle': { en: 'MY MIND', ar: 'عقلي' },
+  'nav.brandSub': { en: 'Personal Second Brain', ar: 'عقلي الرقمي المفتوح' },
   'nav.home': { en: 'Home', ar: 'الرئيسية' },
-  'nav.roadmap': { en: 'Roadmap', ar: 'خارطة الطريق' },
+  'nav.tech': { en: 'Tech & AI', ar: 'الفص التقني' },
+  'nav.cinema': { en: 'Cinema', ar: 'السينما' },
+  'nav.library': { en: 'Library', ar: 'المكتبة' },
+  'nav.languages': { en: 'Languages', ar: 'اللغات' },
+  'nav.principles': { en: 'Principles', ar: 'المبادئ' },
+  'nav.roadmap': { en: 'Tech Roadmap', ar: 'خارطة التقنية' },
   'nav.courseMatrix': { en: 'Course Matrix', ar: 'مصفوفة الكورسات' },
   'nav.missingSkills': { en: 'Missing Skills', ar: 'المهارات المفقودة' },
   'nav.projects': { en: 'Projects', ar: 'المشاريع' },
   'nav.resources': { en: 'Resources', ar: 'المصادر' },
   'nav.interview': { en: 'Interview', ar: 'المقابلات' },
   'nav.jobReady': { en: 'Job Ready', ar: 'جاهزية الوظيفة' },
-  'nav.search': { en: 'Search...', ar: 'بحث سريع...' },
+  'nav.search': { en: 'Search...', ar: 'بحث في عقلي...' },
   'nav.searchHint': { en: 'Ctrl+K', ar: 'Ctrl+K' },
   'nav.stagesDone': { en: 'Done', ar: 'مكتمل' },
   'nav.checks': { en: '21 Checks', ar: '21 فحص' },
