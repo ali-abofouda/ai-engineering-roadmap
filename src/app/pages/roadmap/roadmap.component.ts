@@ -40,212 +40,196 @@ export interface RoadmapPhase {
   template: `
     <div class="roadmap-page py-4">
       <div class="container-xl">
-        <!-- HEADER & PROGRESS -->
-        <div class="roadmap-header mb-4">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
-            <div>
-              <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                <span class="badge badge-subtle-primary font-monospace">
-                  {{ 'roadmap.headerBadge' | trans }}
-                </span>
-                <span class="badge badge-subtle-info font-monospace">
-                  {{ 'roadmap.headerSubBadge' | trans }}
-                </span>
+
+        <!-- ============================================================= -->
+        <!-- CLEAN AIRY HEADER & REAL PROGRESS METER                       -->
+        <!-- ============================================================= -->
+        <header class="roadmap-hero mb-4">
+          <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+            <div class="hero-text-block">
+              <div class="d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill hero-kicker mb-2">
+                <span class="live-dot"></span>
+                <span class="kicker-label font-monospace">{{ 'roadmap.headerBadge' | trans }}</span>
+                <span class="kicker-sep">·</span>
+                <span class="kicker-sub">{{ stages.length }} {{ currentLang === 'ar' ? 'محطة متسلسلة' : 'Connected Stages' }}</span>
               </div>
-              <h1 class="hero-roadmap-title text-white fw-bold mb-1">{{ 'roadmap.title' | trans }}</h1>
-              <p class="text-secondary small mb-0">
+              <h1 class="hero-title fw-bold mb-2">{{ 'roadmap.title' | trans }}</h1>
+              <p class="hero-desc mb-0">
                 {{ 'roadmap.desc' | trans }}
               </p>
             </div>
 
-            <!-- Progress Meter -->
-            <div class="progress-meter-card p-3 d-flex align-items-center gap-3">
-              <div class="text-end">
-                <div class="small text-secondary">{{ 'roadmap.yourProgress' | trans }}</div>
-                <div class="font-monospace text-white fw-bold">
-                  {{ completedStageIds.length }}/{{ stages.length }} {{ 'roadmap.completed' | trans }} ({{ progressPercentage }}%)
-                </div>
+            <!-- Integrated Linear Progress Box -->
+            <div class="progress-box p-3">
+              <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+                <span class="progress-label fw-semibold">
+                  <i class="fa-solid fa-list-check me-1 text-mint"></i>
+                  {{ 'roadmap.yourProgress' | trans }}
+                </span>
+                <span class="progress-pct-badge font-monospace">{{ progressPercentage }}%</span>
               </div>
-              <div class="progress-radial-circle" [style.--pct]="progressPercentage + '%'">
-                <span class="font-monospace small fw-bold">{{ progressPercentage }}%</span>
+              <div class="custom-progress-track mb-2">
+                <div class="custom-progress-fill" [style.width.%]="progressPercentage"></div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center small text-secondary font-monospace">
+                <span>{{ completedStageIds.length }} / {{ stages.length }} {{ 'roadmap.completed' | trans }}</span>
+                <span class="text-muted">{{ stages.length - completedStageIds.length }} {{ currentLang === 'ar' ? 'متبقية' : 'remaining' }}</span>
               </div>
             </div>
           </div>
+        </header>
 
-          <!-- PHASE NAVIGATOR RIBBON (Horizontal Visual Journey Stepper) -->
-          <div class="phase-navigator-card p-2 p-md-3 mb-3">
-            <div class="d-flex justify-content-between align-items-center mb-2 px-1 flex-wrap gap-2">
-              <div class="d-flex align-items-center gap-2">
-                <span class="small font-monospace text-uppercase text-cyan fw-semibold">
-                  <i class="fa-solid fa-compass me-1"></i>{{ 'roadmap.quickJump' | trans }}
-                </span>
-                <span class="text-muted small">·</span>
-                <span class="text-secondary small">8 {{ currentLang === 'ar' ? 'مراحل متسلسلة' : 'Connected Phases' }}</span>
-              </div>
-              <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-sm btn-action-subtle" (click)="expandAllPhases()" title="Expand All">
-                  <i class="fa-solid fa-angles-down me-1"></i>{{ 'roadmap.expandAll' | trans }}
-                </button>
-                <button class="btn btn-sm btn-action-subtle" (click)="collapseAllPhases()" title="Collapse All">
-                  <i class="fa-solid fa-angles-up me-1"></i>{{ 'roadmap.collapseAll' | trans }}
-                </button>
-              </div>
+        <!-- ============================================================= -->
+        <!-- HORIZONTAL PHASE JUMP TRACK (Visual Ribbon)                   -->
+        <!-- ============================================================= -->
+        <nav class="phase-ribbon-card p-2 p-md-3 mb-4" aria-label="Phase navigation">
+          <div class="d-flex justify-content-between align-items-center mb-2 px-1 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2">
+              <span class="ribbon-title font-monospace fw-bold text-uppercase">
+                {{ 'roadmap.quickJump' | trans }}
+              </span>
+              <span class="text-muted small">·</span>
+              <span class="text-secondary small">8 {{ currentLang === 'ar' ? 'مراحل تخصصية' : 'Curated Phases' }}</span>
             </div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-action-subtle" (click)="expandAllPhases()">
+                <i class="fa-solid fa-angles-down me-1"></i>{{ 'roadmap.expandAll' | trans }}
+              </button>
+              <button class="btn btn-sm btn-action-subtle" (click)="collapseAllPhases()">
+                <i class="fa-solid fa-angles-up me-1"></i>{{ 'roadmap.collapseAll' | trans }}
+              </button>
+            </div>
+          </div>
 
-            <div class="phase-pills-scroll d-flex align-items-center gap-2">
-              <ng-container *ngFor="let p of phases; let i = index">
+          <div class="phase-ribbon-scroll d-flex align-items-center gap-2">
+            <button 
+              *ngFor="let p of phases" 
+              class="phase-ribbon-chip d-flex align-items-center gap-2"
+              [class.completed]="getPhaseProgressPct(p) === 100"
+              (click)="scrollToPhase(p.id)"
+            >
+              <span class="chip-num font-monospace">{{ p.numberStr }}</span>
+              <span class="chip-name text-truncate">{{ currentLang === 'ar' ? p.titleAr : p.titleEn }}</span>
+              <span *ngIf="getPhaseProgressPct(p) === 100" class="chip-check text-mint">
+                <i class="fa-solid fa-circle-check"></i>
+              </span>
+              <span *ngIf="getPhaseProgressPct(p) < 100" class="chip-pct font-monospace">
+                {{ getPhaseProgressPct(p) }}%
+              </span>
+            </button>
+          </div>
+        </nav>
+
+        <!-- ============================================================= -->
+        <!-- STREAMLINED TOOLBAR: SEARCH, CATEGORIES & VIEW SWITCHER       -->
+        <!-- ============================================================= -->
+        <div class="roadmap-toolbar p-3 mb-4">
+          <div class="row g-3 align-items-center">
+            <!-- Search Input -->
+            <div class="col-lg-4 col-md-5">
+              <div class="search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input 
+                  type="text" 
+                  class="form-control clean-search-input" 
+                  [(ngModel)]="searchQuery" 
+                  (input)="applyFilters()"
+                  [placeholder]="'roadmap.filterPlaceholder' | trans"
+                />
                 <button 
-                  class="phase-nav-chip d-flex align-items-center gap-2"
-                  [class.completed]="getPhaseProgressPct(p) === 100"
-                  [attr.data-phase]="p.id"
-                  (click)="scrollToPhase(p.id)"
+                  *ngIf="searchQuery" 
+                  class="btn-clear-search" 
+                  (click)="searchQuery = ''; applyFilters()"
+                  title="Clear"
                 >
-                  <span class="chip-num font-monospace">{{ p.numberStr }}</span>
-                  <span class="chip-label text-truncate">{{ currentLang === 'ar' ? p.titleAr : p.titleEn }}</span>
-                  <span class="chip-pct font-monospace ms-auto">{{ getPhaseProgressPct(p) }}%</span>
+                  <i class="fa-solid fa-xmark"></i>
                 </button>
-                <div *ngIf="i < phases.length - 1" class="phase-nav-arrow text-secondary">
-                  <i class="fa-solid" [class.fa-arrow-right]="currentLang !== 'ar'" [class.fa-arrow-left]="currentLang === 'ar'"></i>
-                </div>
-              </ng-container>
+              </div>
+            </div>
+
+            <!-- View Switcher (Flow | Grid | Table) -->
+            <div class="col-lg-4 col-md-7 d-flex justify-content-md-center justify-content-start">
+              <div class="segmented-control">
+                <button 
+                  class="segmented-btn" 
+                  [class.active]="viewMode === 'flow'" 
+                  (click)="viewMode = 'flow'"
+                >
+                  <i class="fa-solid fa-route me-1"></i>
+                  <span>{{ 'roadmap.viewFlow' | trans }}</span>
+                </button>
+                <button 
+                  class="segmented-btn" 
+                  [class.active]="viewMode === 'grid'" 
+                  (click)="viewMode = 'grid'"
+                >
+                  <i class="fa-solid fa-table-cells-large me-1"></i>
+                  <span>{{ 'roadmap.viewGrid' | trans }}</span>
+                </button>
+                <button 
+                  class="segmented-btn" 
+                  [class.active]="viewMode === 'table'" 
+                  (click)="viewMode = 'table'"
+                >
+                  <i class="fa-solid fa-list-check me-1"></i>
+                  <span>{{ 'roadmap.viewTable' | trans }}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Stage Count & Quick Reset -->
+            <div class="col-lg-4 col-12 d-flex justify-content-lg-end justify-content-between align-items-center gap-2">
+              <span class="stage-counter-pill font-monospace">
+                {{ filteredStages.length }} / {{ stages.length }} {{ 'roadmap.stagesWord' | trans }}
+              </span>
+              <button 
+                *ngIf="searchQuery || selectedCategory !== 'All' || selectedCourse !== 'All' || selectedCoverage !== 'All'" 
+                class="btn btn-sm btn-reset-pill" 
+                (click)="resetFilters()"
+              >
+                <i class="fa-solid fa-rotate-left me-1"></i>{{ 'roadmap.reset' | trans }}
+              </button>
             </div>
           </div>
 
-          <!-- TOOLBAR: SEARCH, CATEGORIES, VIEW MODES & FILTERS -->
-          <div class="toolbar-box p-3">
-            <div class="row g-3 align-items-center">
-              <!-- Search Filter Input -->
-              <div class="col-lg-4 col-md-5">
-                <div class="input-group">
-                  <span class="input-group-text search-icon-wrap">
-                    <i class="fa-solid fa-magnifying-glass text-secondary"></i>
-                  </span>
-                  <input 
-                    type="text" 
-                    class="form-control search-filter-input small" 
-                    [(ngModel)]="searchQuery" 
-                    (input)="applyFilters()"
-                    [placeholder]="'roadmap.filterPlaceholder' | trans"
-                  />
-                  <button 
-                    *ngIf="searchQuery" 
-                    class="btn btn-clear-search text-secondary" 
-                    (click)="searchQuery = ''; applyFilters()"
-                  >
-                    <i class="fa-solid fa-xmark"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- View Mode Switcher (Flow | Grid | Tracker) -->
-              <div class="col-lg-4 col-md-7 d-flex justify-content-md-end justify-content-start">
-                <div class="view-switcher-group d-inline-flex p-1 rounded-3">
-                  <button 
-                    class="view-btn" 
-                    [class.active]="viewMode === 'flow'" 
-                    (click)="viewMode = 'flow'"
-                    title="Interactive Visual Roadmap Path"
-                  >
-                    <i class="fa-solid fa-route me-1"></i>
-                    <span>{{ 'roadmap.viewFlow' | trans }}</span>
-                  </button>
-                  <button 
-                    class="view-btn" 
-                    [class.active]="viewMode === 'grid'" 
-                    (click)="viewMode = 'grid'"
-                    title="Grid Board View"
-                  >
-                    <i class="fa-solid fa-table-cells-large me-1"></i>
-                    <span>{{ 'roadmap.viewGrid' | trans }}</span>
-                  </button>
-                  <button 
-                    class="view-btn" 
-                    [class.active]="viewMode === 'table'" 
-                    (click)="viewMode = 'table'"
-                    title="Compact Tracker View"
-                  >
-                    <i class="fa-solid fa-list-check me-1"></i>
-                    <span>{{ 'roadmap.viewTable' | trans }}</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Category Pills Track -->
-              <div class="col-lg-4 col-12">
-                <div class="d-flex flex-wrap gap-1 category-pill-track">
-                  <button 
-                    *ngFor="let cat of categoryFilters" 
-                    class="filter-pill"
-                    [class.active]="selectedCategory === cat.key"
-                    (click)="setCategory(cat.key)"
-                  >
-                    {{ cat.label | trans }}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Secondary Toolbar: Courses, Coverage, Stats & Reset -->
-            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 pt-2 border-top gap-2 toolbar-secondary">
-              <div class="d-flex flex-wrap align-items-center gap-2">
-                <!-- Course Source Filter -->
-                <div class="d-flex align-items-center gap-1">
-                  <small class="text-secondary font-monospace me-1">{{ 'roadmap.courseFilter' | trans }}</small>
-                  <button 
-                    *ngFor="let course of courseFilters" 
-                    class="source-pill" 
-                    [class.active]="selectedCourse === course"
-                    (click)="setCourse(course)"
-                  >
-                    {{ course }}
-                  </button>
-                </div>
-
-                <div class="vr-divider d-none d-sm-block mx-1"></div>
-
-                <!-- Coverage Filter -->
-                <div class="d-flex align-items-center gap-1">
-                  <small class="text-secondary font-monospace me-1">{{ 'roadmap.coverageFilter' | trans }}</small>
-                  <button 
-                    *ngFor="let cov of coverageFilters" 
-                    class="cov-pill" 
-                    [class.active]="selectedCoverage === cov.key"
-                    (click)="setCoverage(cov.key)"
-                  >
-                    {{ cov.label | trans }}
-                  </button>
-                </div>
-              </div>
-
-              <div class="d-flex align-items-center gap-2">
-                <span class="small text-secondary font-monospace">
-                  {{ 'roadmap.showingStages' | trans }} {{ filteredStages.length }} {{ 'roadmap.ofStages' | trans }} {{ stages.length }} {{ 'roadmap.stagesWord' | trans }}
-                </span>
-                <button class="btn btn-sm btn-reset-filters" (click)="resetFilters()" title="Reset Filters">
-                  <i class="fa-solid fa-rotate-left me-1"></i>{{ 'roadmap.reset' | trans }}
-                </button>
-              </div>
-            </div>
+          <!-- Category Filter Pills Track -->
+          <div class="category-pills-row mt-3 pt-2 border-top d-flex align-items-center gap-1">
+            <button 
+              *ngFor="let cat of categoryFilters" 
+              class="category-pill"
+              [class.active]="selectedCategory === cat.key"
+              (click)="setCategory(cat.key)"
+            >
+              {{ cat.label | trans }}
+            </button>
           </div>
         </div>
 
         <!-- EMPTY STATE -->
-        <div *ngIf="filteredStages.length === 0" class="text-center py-5 text-secondary empty-notice modern-card my-4">
-          <i class="fa-solid fa-filter fa-2x mb-3 text-secondary"></i>
-          <h5 class="text-white">{{ 'roadmap.noMatches' | trans }}</h5>
-          <p class="small text-muted mb-3">Try adjusting your search query, category, or course filters.</p>
-          <button class="btn btn-sm btn-primary-action" (click)="resetFilters()">
+        <div *ngIf="filteredStages.length === 0" class="empty-state-card text-center py-5 my-4">
+          <div class="empty-icon-wrap mb-3">
+            <i class="fa-solid fa-filter fa-2x text-muted"></i>
+          </div>
+          <h4 class="fw-bold mb-2">{{ 'roadmap.noMatches' | trans }}</h4>
+          <p class="text-secondary small mb-3">
+            {{ currentLang === 'ar' ? 'جرب تغيير كلمة البحث أو اختيار تصنيف آخر.' : 'Try adjusting your search query or selecting another category.' }}
+          </p>
+          <button class="btn btn-sm btn-primary-clean" (click)="resetFilters()">
             {{ 'roadmap.clearFilters' | trans }}
           </button>
         </div>
 
         <!-- ============================================================= -->
-        <!-- VIEW MODE 1: INTERACTIVE VISUAL ROADMAP FLOW                  -->
+        <!-- VIEW MODE 1: REDESIGNED SLEEK CONNECTED NODE FLOW             -->
         <!-- ============================================================= -->
-        <div *ngIf="viewMode === 'flow' && filteredStages.length > 0" class="roadmap-flow-container">
-          <div *ngFor="let phase of visiblePhases; let pIdx = index" [id]="'phase-milestone-' + phase.id" class="phase-milestone-section mb-5" [attr.data-phase]="phase.id">
-            <!-- Phase Milestone Header Gateway -->
-            <div class="phase-gateway-card p-3 p-md-4 mb-4" [class.collapsed]="!isPhaseExpanded(phase.id)">
+        <div *ngIf="viewMode === 'flow' && filteredStages.length > 0" class="flow-view-wrapper">
+          <section 
+            *ngFor="let phase of visiblePhases; let pIdx = index" 
+            [id]="'phase-milestone-' + phase.id" 
+            class="phase-section mb-5"
+          >
+            <!-- Phase Chapter Banner -->
+            <div class="phase-chapter-header p-3 p-md-4 mb-4" [class.collapsed]="!isPhaseExpanded(phase.id)">
               <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <div class="d-flex align-items-center gap-3">
                   <div class="phase-number-crest font-monospace">
@@ -254,10 +238,12 @@ export interface RoadmapPhase {
                   <div>
                     <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
                       <span class="phase-badge font-monospace">{{ 'roadmap.phasePrefix' | trans }} {{ phase.numberStr }}</span>
-                      <span class="badge badge-phase-cat">{{ phase.category }}</span>
-                      <span class="duration-badge font-monospace"><i class="fa-regular fa-clock me-1"></i>{{ phase.durationWeeks }}</span>
+                      <span class="phase-cat-pill">{{ phase.category }}</span>
+                      <span class="phase-duration font-monospace">
+                        <i class="fa-regular fa-clock me-1"></i>{{ phase.durationWeeks }}
+                      </span>
                     </div>
-                    <h3 class="phase-title text-white fw-bold mb-1">
+                    <h3 class="phase-title fw-bold mb-1">
                       {{ currentLang === 'ar' ? phase.titleAr : phase.titleEn }}
                     </h3>
                     <p class="phase-desc text-secondary small mb-0">
@@ -267,18 +253,18 @@ export interface RoadmapPhase {
                 </div>
 
                 <div class="d-flex align-items-center gap-3 flex-shrink-0 align-self-md-center align-self-end">
-                  <!-- Phase Completion Meter -->
-                  <div class="phase-progress-wrap text-md-end">
+                  <!-- Phase Progress -->
+                  <div class="phase-meter text-md-end">
                     <div class="d-flex align-items-center gap-2 justify-content-md-end mb-1">
                       <span class="small font-monospace text-secondary">
                         {{ getPhaseCompletedCount(phase) }}/{{ getPhaseStages(phase).length }} {{ 'roadmap.completed' | trans }}
                       </span>
-                      <span class="badge font-monospace" [class.bg-success]="getPhaseProgressPct(phase) === 100" [class.badge-phase-pct]="getPhaseProgressPct(phase) < 100">
+                      <span class="phase-pct-badge font-monospace" [class.done]="getPhaseProgressPct(phase) === 100">
                         {{ getPhaseProgressPct(phase) }}%
                       </span>
                     </div>
-                    <div class="phase-progress-bar">
-                      <div class="phase-progress-fill" [style.width.%]="getPhaseProgressPct(phase)"></div>
+                    <div class="phase-progress-track">
+                      <div class="phase-progress-bar" [style.width.%]="getPhaseProgressPct(phase)"></div>
                     </div>
                   </div>
 
@@ -294,209 +280,172 @@ export interface RoadmapPhase {
               </div>
             </div>
 
-            <!-- Flow Stages Track (Visible when Phase is Expanded) -->
-            <div *ngIf="isPhaseExpanded(phase.id)" class="flow-track-wrapper position-relative">
-              <!-- Central / Left Spine Line -->
-              <div class="flow-spine-line"></div>
+            <!-- Connected Nodes Stream (When Phase is Expanded) -->
+            <div *ngIf="isPhaseExpanded(phase.id)" class="nodes-stream-container">
+              <!-- Central Spine Line -->
+              <div class="spine-line"></div>
 
-              <!-- Sequential Flow Stages -->
-              <div class="flow-nodes-sequence">
-                <div 
+              <!-- Stage Nodes List -->
+              <div class="stages-stream">
+                <article 
                   *ngFor="let stage of getPhaseStages(phase); let sIdx = index; let isLast = last" 
-                  class="flow-stage-row d-flex align-items-start position-relative mb-4"
+                  class="stage-node-item"
                   [class.is-completed]="isCompleted(stage.id)"
                 >
-                  <!-- Milestone Node Pin on the Spine -->
-                  <div 
-                    class="flow-node-marker" 
+                  <!-- Node Pin on the Spine Line (Click toggles completion) -->
+                  <button 
+                    type="button"
+                    class="node-pin-btn"
                     [class.completed]="isCompleted(stage.id)"
                     (click)="toggleCompletion($event, stage.id)"
                     [title]="isCompleted(stage.id) ? 'Mark Incomplete' : 'Mark Completed'"
                   >
                     <i *ngIf="isCompleted(stage.id)" class="fa-solid fa-check"></i>
-                    <span *ngIf="!isCompleted(stage.id)" class="marker-id font-monospace">{{ stage.id }}</span>
-                  </div>
+                    <span *ngIf="!isCompleted(stage.id)" class="pin-number font-monospace">{{ stage.id }}</span>
+                  </button>
 
-                  <!-- Branch Connector Line to Card -->
-                  <div class="flow-branch-connector"></div>
+                  <!-- Branch Connector -->
+                  <div class="node-branch-line"></div>
 
-                  <!-- Flow Stage Card -->
-                  <div class="flow-card-container flex-grow-1">
-                    <div 
-                      class="flow-stage-card p-3 p-md-4"
-                      [class.is-completed]="isCompleted(stage.id)"
-                      [class.is-active-preview]="selectedStage?.id === stage.id"
-                    >
-                      <!-- Card Top Bar: Header Meta & Checkbox -->
-                      <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
-                          <span class="stage-id-pill font-monospace">{{ 'roadmap.stagePrefix' | trans }} {{ stage.id }}</span>
-                          <span class="stage-cat-pill">{{ stage.category }}</span>
-                          <span class="diff-badge" [attr.data-diff]="stage.difficulty">{{ stage.difficulty }}</span>
-                          <span class="duration-badge font-monospace"><i class="fa-regular fa-clock me-1"></i>{{ stage.durationWeeks }}</span>
-                        </div>
-
-                        <!-- Complete Toggle Checkbox -->
-                        <button 
-                          class="btn-stage-check"
-                          [class.checked]="isCompleted(stage.id)"
-                          (click)="toggleCompletion($event, stage.id)"
-                          [title]="isCompleted(stage.id) ? 'Mark Incomplete' : 'Mark Completed'"
-                        >
-                          <i class="fa-solid" [class.fa-check]="isCompleted(stage.id)" [class.fa-circle]="!isCompleted(stage.id)"></i>
-                        </button>
+                  <!-- Stage Milestone Card (Clean, Modern, Uncluttered) -->
+                  <div class="node-card-body p-3 p-md-4">
+                    <!-- Top Meta Row -->
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                      <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="stage-code font-monospace">{{ 'roadmap.stagePrefix' | trans }} {{ stage.id }}</span>
+                        <span class="stage-tag">{{ stage.category }}</span>
+                        <span class="stage-diff" [attr.data-diff]="stage.difficulty">{{ stage.difficulty }}</span>
+                        <span class="stage-time font-monospace"><i class="fa-regular fa-clock me-1"></i>{{ stage.durationWeeks }}</span>
+                        <span *ngIf="hasInteractiveDiagram(stage.id)" class="stage-diagram-pill font-monospace">
+                          <i class="fa-solid fa-diagram-project me-1"></i>Diagram
+                        </span>
                       </div>
 
-                      <!-- Stage Title & Tagline -->
-                      <h4 class="stage-card-title text-white fw-bold mb-2">{{ stage.title }}</h4>
-                      <p class="stage-card-desc text-secondary small mb-3">
-                        {{ stage.tagline }}
-                      </p>
-
-                      <!-- Tech Stack Chips & Topics Expander Bar -->
-                      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-                        <div class="d-flex flex-wrap gap-1">
-                          <span *ngFor="let tool of stage.tools.slice(0, 4)" class="tech-chip">
-                            {{ tool }}
-                          </span>
-                          <span *ngIf="stage.tools.length > 4" class="tech-chip text-cyan">
-                            +{{ stage.tools.length - 4 }}
-                          </span>
-                          <span *ngIf="hasInteractiveDiagram(stage.id)" class="diagram-pill font-monospace">
-                            <i class="fa-solid fa-diagram-project me-1"></i>Diagram
-                          </span>
-                        </div>
-
-                        <!-- Inline Topics Toggle Button -->
-                        <button 
-                          class="btn-inline-topics font-monospace"
-                          (click)="toggleTopics(stage.id, $event)"
-                          [class.active]="isTopicsExpanded(stage.id)"
-                        >
-                          <i class="fa-solid fa-list-ul me-1"></i>
-                          <span>{{ stage.topicsList.length }} {{ 'roadmap.showTopics' | trans }}</span>
-                          <i class="fa-solid ms-1" [class.fa-chevron-down]="!isTopicsExpanded(stage.id)" [class.fa-chevron-up]="isTopicsExpanded(stage.id)"></i>
-                        </button>
-                      </div>
-
-                      <!-- Inline Syllabus Topics Dropdown Grid -->
-                      <div *ngIf="isTopicsExpanded(stage.id)" class="inline-topics-box p-3 mb-3 rounded-2">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                          <span class="small font-monospace text-cyan fw-bold">
-                            <i class="fa-solid fa-graduation-cap me-1"></i>{{ 'roadmap.curriculumTopics' | trans }} ({{ stage.topicsList.length }})
-                          </span>
-                        </div>
-                        <div class="row g-2">
-                          <div *ngFor="let t of stage.topicsList" class="col-md-6 col-12">
-                            <div class="d-flex align-items-center gap-2 small text-secondary">
-                              <span class="topic-dot"></span>
-                              <span class="topic-name">{{ t }}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Card Footer: Course Badges & Action Buttons -->
-                      <div class="d-flex justify-content-between align-items-center pt-3 border-top gap-2 flex-wrap">
-                        <div class="d-flex align-items-center gap-1 flex-wrap">
-                          <span *ngFor="let c of stage.courseSources" class="course-badge" [attr.data-course]="c">
-                            {{ c }}
-                          </span>
-                          <span class="coverage-badge mini-cov" [attr.data-cov]="stage.coverageStatus">
-                            <span class="cov-dot"></span>
-                            {{ stage.coverageStatus }}
-                          </span>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-2">
-                          <button class="btn btn-sm btn-quick-preview" (click)="openPreview(stage)">
-                            <i class="fa-regular fa-eye me-1"></i>Preview
-                          </button>
-                          <a [routerLink]="['/stage', stage.id]" class="btn btn-sm btn-deep-dive">
-                            {{ 'roadmap.openDeepDive' | trans }} <i class="fa-solid fa-arrow-right ms-1"></i>
-                          </a>
-                        </div>
-                      </div>
+                      <!-- Complete Toggle Button -->
+                      <button 
+                        class="btn-stage-checkbox"
+                        [class.checked]="isCompleted(stage.id)"
+                        (click)="toggleCompletion($event, stage.id)"
+                        [title]="isCompleted(stage.id) ? 'Mark Incomplete' : 'Mark Completed'"
+                      >
+                        <i class="fa-solid" [class.fa-check]="isCompleted(stage.id)" [class.fa-circle]="!isCompleted(stage.id)"></i>
+                      </button>
                     </div>
 
-                    <!-- Downward Arrow to Next Stage in this Phase -->
-                    <div *ngIf="!isLast" class="step-connector-down text-center py-2">
-                      <div class="step-line-stem"></div>
-                      <i class="fa-solid fa-arrow-down small text-muted"></i>
+                    <!-- Title & Tagline -->
+                    <h4 class="node-title fw-bold mb-2">
+                      <a [routerLink]="['/stage', stage.id]" class="node-title-link">
+                        {{ stage.title }}
+                      </a>
+                    </h4>
+                    <p class="node-desc text-secondary small mb-3">
+                      {{ stage.tagline }}
+                    </p>
+
+                    <!-- Tech Stack Tags -->
+                    <div class="d-flex flex-wrap align-items-center gap-1 mb-3">
+                      <span *ngFor="let tool of stage.tools.slice(0, 4)" class="node-tool-chip font-monospace">
+                        {{ tool }}
+                      </span>
+                      <span *ngIf="stage.tools.length > 4" class="node-tool-chip text-muted font-monospace">
+                        +{{ stage.tools.length - 4 }}
+                      </span>
+                    </div>
+
+                    <!-- Card Actions Footer -->
+                    <div class="node-footer pt-3 border-top d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                      <div class="d-flex align-items-center gap-1">
+                        <span *ngFor="let c of stage.courseSources.slice(0, 2)" class="node-course-tag">
+                          {{ c }}
+                        </span>
+                      </div>
+
+                      <div class="d-flex align-items-center gap-2">
+                        <!-- Quick View / Inspector Drawer Button -->
+                        <button class="btn btn-sm btn-quick-inspect" (click)="openPreview(stage)">
+                          <i class="fa-regular fa-eye me-1"></i>
+                          <span>{{ currentLang === 'ar' ? 'نظرة سريعة' : 'Quick View' }}</span>
+                        </button>
+
+                        <!-- Full Deep Dive Page Link -->
+                        <a [routerLink]="['/stage', stage.id]" class="btn btn-sm btn-deep-dive-clean">
+                          <span>{{ currentLang === 'ar' ? 'الشرح المفصل' : 'Deep Dive' }}</span>
+                          <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </article>
               </div>
             </div>
 
-            <!-- Milestone Gateway Bridge between Phases -->
-            <div *ngIf="pIdx < visiblePhases.length - 1" class="phase-waypoint-bridge my-4 py-2 text-center position-relative">
-              <div class="bridge-stem-line"></div>
-              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bridge-chip">
+            <!-- Waypoint Bridge between Phases -->
+            <div *ngIf="pIdx < visiblePhases.length - 1" class="phase-waypoint-bridge my-4 text-center">
+              <div class="waypoint-stem"></div>
+              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill waypoint-chip">
                 <i class="fa-solid fa-circle-check text-mint small"></i>
                 <span class="small font-monospace text-secondary">
-                  {{ 'roadmap.phaseComplete' | trans }} {{ phase.numberStr }} · {{ 'roadmap.proceedTo' | trans }} Phase {{ visiblePhases[pIdx + 1].numberStr }}
+                  {{ 'roadmap.phaseComplete' | trans }} {{ phase.numberStr }} · {{ 'roadmap.proceedTo' | trans }} {{ visiblePhases[pIdx + 1].numberStr }}
                 </span>
-                <i class="fa-solid fa-arrow-down small text-cyan"></i>
+                <i class="fa-solid fa-arrow-down small text-mint"></i>
               </div>
             </div>
-          </div>
+          </section>
         </div>
 
         <!-- ============================================================= -->
-        <!-- VIEW MODE 2: INTERACTIVE GRID VIEW                            -->
+        <!-- VIEW MODE 2: CLEAN BOARD GRID                                 -->
         <!-- ============================================================= -->
-        <div *ngIf="viewMode === 'grid' && filteredStages.length > 0" class="grid-container">
+        <div *ngIf="viewMode === 'grid' && filteredStages.length > 0" class="grid-view-wrapper mb-5">
           <div class="row g-3">
             <div *ngFor="let stage of filteredStages" class="col-xl-4 col-md-6 col-12">
               <div 
-                class="stage-card h-100 p-3 p-md-4 d-flex flex-column"
+                class="grid-stage-card h-100 p-3 p-md-4 d-flex flex-column"
                 [class.is-completed]="isCompleted(stage.id)"
-                [class.is-active-preview]="selectedStage?.id === stage.id"
               >
-                <!-- Card Header -->
+                <!-- Top Header -->
                 <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                   <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <span class="stage-num-badge font-monospace">{{ stage.id }}</span>
-                    <span class="stage-cat-pill">{{ stage.category }}</span>
-                    <span class="diff-badge" [attr.data-diff]="stage.difficulty">{{ stage.difficulty }}</span>
+                    <span class="stage-code font-monospace">{{ stage.id }}</span>
+                    <span class="stage-tag">{{ stage.category }}</span>
+                    <span class="stage-diff" [attr.data-diff]="stage.difficulty">{{ stage.difficulty }}</span>
                   </div>
 
                   <button 
-                    class="btn-stage-check"
+                    class="btn-stage-checkbox"
                     [class.checked]="isCompleted(stage.id)"
                     (click)="toggleCompletion($event, stage.id)"
-                    [title]="isCompleted(stage.id) ? 'Mark Incomplete' : 'Mark Completed'"
                   >
                     <i class="fa-solid" [class.fa-check]="isCompleted(stage.id)" [class.fa-circle]="!isCompleted(stage.id)"></i>
                   </button>
                 </div>
 
-                <h5 class="stage-card-title text-white fw-bold mb-2">{{ stage.title }}</h5>
-                <p class="stage-card-desc text-secondary small mb-3 flex-grow-1">
+                <h5 class="node-title fw-bold mb-2">
+                  <a [routerLink]="['/stage', stage.id]" class="node-title-link">
+                    {{ stage.title }}
+                  </a>
+                </h5>
+                <p class="node-desc text-secondary small mb-3 flex-grow-1">
                   {{ stage.tagline }}
                 </p>
 
                 <div class="d-flex flex-wrap gap-1 mb-3">
-                  <span *ngFor="let tool of stage.tools.slice(0, 3)" class="tech-chip">{{ tool }}</span>
-                  <span *ngIf="stage.tools.length > 3" class="tech-chip text-cyan">+{{ stage.tools.length - 3 }}</span>
+                  <span *ngFor="let tool of stage.tools.slice(0, 3)" class="node-tool-chip font-monospace">{{ tool }}</span>
+                  <span *ngIf="stage.tools.length > 3" class="node-tool-chip text-muted font-monospace">+{{ stage.tools.length - 3 }}</span>
                 </div>
 
                 <!-- Footer -->
-                <div class="d-flex justify-content-between align-items-center pt-3 border-top gap-2 flex-wrap">
-                  <div class="d-flex align-items-center gap-1">
-                    <span class="coverage-badge mini-cov" [attr.data-cov]="stage.coverageStatus">
-                      <span class="cov-dot"></span>
-                      {{ stage.coverageStatus }}
-                    </span>
-                  </div>
+                <div class="node-footer pt-3 border-top d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                  <span class="stage-time font-monospace"><i class="fa-regular fa-clock me-1"></i>{{ stage.durationWeeks }}</span>
 
                   <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-sm btn-quick-preview" (click)="openPreview(stage)">
-                      <i class="fa-regular fa-eye me-1"></i>Preview
+                    <button class="btn btn-sm btn-quick-inspect" (click)="openPreview(stage)">
+                      <i class="fa-regular fa-eye me-1"></i>
+                      <span>{{ currentLang === 'ar' ? 'نظرة سريعة' : 'Quick View' }}</span>
                     </button>
-                    <a [routerLink]="['/stage', stage.id]" class="btn btn-sm btn-deep-dive">
-                      Deep Dive <i class="fa-solid fa-arrow-right ms-1"></i>
+                    <a [routerLink]="['/stage', stage.id]" class="btn btn-sm btn-deep-dive-clean">
+                      <span>{{ currentLang === 'ar' ? 'الشرح' : 'Deep Dive' }}</span>
+                      <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
                     </a>
                   </div>
                 </div>
@@ -508,19 +457,17 @@ export interface RoadmapPhase {
         <!-- ============================================================= -->
         <!-- VIEW MODE 3: COMPACT DEVELOPER TRACKER TABLE                 -->
         <!-- ============================================================= -->
-        <div *ngIf="viewMode === 'table' && filteredStages.length > 0" class="table-container modern-card p-0 overflow-hidden mb-5">
+        <div *ngIf="viewMode === 'table' && filteredStages.length > 0" class="table-view-wrapper overflow-hidden mb-5">
           <div class="table-responsive">
-            <table class="table tracker-table align-middle mb-0">
-              <thead class="tracker-head">
+            <table class="table clean-tracker-table align-middle mb-0">
+              <thead>
                 <tr>
                   <th style="width: 50px;" class="text-center">Done</th>
                   <th style="width: 70px;">ID</th>
                   <th>Stage Milestone</th>
-                  <th>Phase / Category</th>
+                  <th>Category</th>
                   <th>Difficulty</th>
                   <th>Duration</th>
-                  <th>Course Attribution</th>
-                  <th>Coverage</th>
                   <th style="width: 170px;" class="text-end">Actions</th>
                 </tr>
               </thead>
@@ -536,39 +483,30 @@ export interface RoadmapPhase {
                     </button>
                   </td>
                   <td>
-                    <span class="font-monospace fw-bold stage-num-text">{{ stage.id }}</span>
+                    <span class="font-monospace fw-bold stage-code">{{ stage.id }}</span>
                   </td>
                   <td>
-                    <div class="fw-bold text-white">{{ stage.title }}</div>
+                    <div class="fw-bold">
+                      <a [routerLink]="['/stage', stage.id]" class="node-title-link">{{ stage.title }}</a>
+                    </div>
                     <small class="text-secondary line-clamp-1">{{ stage.tagline }}</small>
                   </td>
                   <td>
-                    <span class="badge cat-badge-tracker">{{ stage.category }}</span>
+                    <span class="stage-tag">{{ stage.category }}</span>
                   </td>
                   <td>
-                    <span class="diff-badge" [attr.data-diff]="stage.difficulty">{{ stage.difficulty }}</span>
+                    <span class="stage-diff" [attr.data-diff]="stage.difficulty">{{ stage.difficulty }}</span>
                   </td>
                   <td>
                     <span class="font-monospace small text-secondary">{{ stage.durationWeeks }}</span>
                   </td>
-                  <td>
-                    <div class="d-flex gap-1 flex-wrap">
-                      <span *ngFor="let c of stage.courseSources" class="course-badge" [attr.data-course]="c">{{ c }}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="coverage-badge mini-cov" [attr.data-cov]="stage.coverageStatus">
-                      <span class="cov-dot"></span>
-                      {{ stage.coverageStatus }}
-                    </span>
-                  </td>
                   <td class="text-end">
                     <div class="d-inline-flex gap-1">
-                      <button class="btn btn-sm btn-quick-preview" (click)="openPreview(stage)" title="Quick Inspection">
+                      <button class="btn btn-sm btn-quick-inspect" (click)="openPreview(stage)" title="Quick View">
                         <i class="fa-regular fa-eye"></i>
                       </button>
-                      <a [routerLink]="['/stage', stage.id]" class="btn btn-sm btn-deep-dive" title="Open Complete Stage Guide">
-                        <i class="fa-solid fa-arrow-right"></i>
+                      <a [routerLink]="['/stage', stage.id]" class="btn btn-sm btn-deep-dive-clean" title="Open Stage Guide">
+                        <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
                       </a>
                     </div>
                   </td>
@@ -581,31 +519,31 @@ export interface RoadmapPhase {
       </div>
 
       <!-- ============================================================= -->
-      <!-- SLIDE-OVER STAGE INSPECTION DRAWER / MODAL                   -->
+      <!-- SLIDE-OVER STAGE INSPECTOR DRAWER                            -->
       <!-- ============================================================= -->
       <div *ngIf="previewOpen && selectedStage" class="stage-preview-backdrop" (click)="closePreview()">
         <div class="stage-preview-modal p-3 p-sm-4" (click)="$event.stopPropagation()">
-          <!-- Modal Header -->
+          <!-- Drawer Header -->
           <div class="d-flex justify-content-between align-items-start pb-3 border-bottom mb-3">
             <div>
               <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                <span class="stage-num-badge font-monospace">Stage {{ selectedStage.id }}</span>
-                <span class="badge badge-phase-cat">{{ selectedStage.category }}</span>
-                <span class="diff-badge" [attr.data-diff]="selectedStage.difficulty">{{ selectedStage.difficulty }}</span>
-                <span class="duration-badge font-monospace">{{ selectedStage.durationWeeks }}</span>
+                <span class="stage-code font-monospace">Stage {{ selectedStage.id }}</span>
+                <span class="stage-tag">{{ selectedStage.category }}</span>
+                <span class="stage-diff" [attr.data-diff]="selectedStage.difficulty">{{ selectedStage.difficulty }}</span>
+                <span class="stage-time font-monospace">{{ selectedStage.durationWeeks }}</span>
               </div>
-              <h4 class="text-white fw-bold mb-1">{{ selectedStage.title }}</h4>
+              <h4 class="fw-bold mb-1 drawer-heading">{{ selectedStage.title }}</h4>
               <p class="text-secondary small mb-0">{{ selectedStage.description }}</p>
             </div>
             
-            <button class="btn-close-preview" (click)="closePreview()" title="Close Preview">
+            <button class="btn-close-drawer" (click)="closePreview()" title="Close">
               <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
 
-          <!-- Modal Scrollable Content -->
+          <!-- Drawer Content -->
           <div class="preview-scroll-body">
-            <!-- Interactive Architecture Diagrams (if present) -->
+            <!-- Interactive Architecture Diagrams -->
             <div *ngIf="selectedStage.id === '09'" class="mb-4">
               <app-rag-diagram></app-rag-diagram>
             </div>
@@ -619,16 +557,16 @@ export interface RoadmapPhase {
             <!-- Concepts Tested & Production Necessity -->
             <div class="row g-3 mb-4">
               <div class="col-md-6">
-                <div class="preview-quad-box p-3 h-100 rounded-3">
-                  <span class="concept-label text-cyan font-monospace mb-1">
+                <div class="preview-box p-3 h-100 rounded-3">
+                  <span class="concept-label text-pine font-monospace mb-1">
                     <i class="fa-solid fa-lightbulb me-1"></i>{{ 'roadmap.whatIsIt' | trans }}
                   </span>
                   <p class="small text-secondary mb-0 leading-relaxed">{{ selectedStage.whatIsIt }}</p>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="preview-quad-box p-3 h-100 rounded-3">
-                  <span class="concept-label text-emerald font-monospace mb-1">
+                <div class="preview-box p-3 h-100 rounded-3">
+                  <span class="concept-label text-mint font-monospace mb-1">
                     <i class="fa-solid fa-shield-halved me-1"></i>{{ 'roadmap.whyNeeded' | trans }}
                   </span>
                   <p class="small text-secondary mb-0 leading-relaxed">{{ selectedStage.whyNeeded }}</p>
@@ -637,14 +575,14 @@ export interface RoadmapPhase {
             </div>
 
             <!-- What To Learn Checklist -->
-            <div class="preview-quad-box p-3 rounded-3 mb-4">
-              <h6 class="text-white fw-bold mb-2">
-                <i class="fa-solid fa-list-check text-primary me-2"></i>{{ 'roadmap.milestoneChecklist' | trans }}
+            <div class="preview-box p-3 rounded-3 mb-4">
+              <h6 class="fw-bold mb-2">
+                <i class="fa-solid fa-list-check text-pine me-2"></i>{{ 'roadmap.milestoneChecklist' | trans }}
               </h6>
               <div class="row g-2">
                 <div *ngFor="let item of selectedStage.whatToLearn" class="col-md-6">
                   <div class="d-flex align-items-baseline gap-2 small text-secondary">
-                    <i class="fa-solid fa-check text-cyan flex-shrink-0"></i>
+                    <i class="fa-solid fa-check text-mint flex-shrink-0"></i>
                     <span>{{ item }}</span>
                   </div>
                 </div>
@@ -652,49 +590,50 @@ export interface RoadmapPhase {
             </div>
 
             <!-- Course Coverage Breakdown -->
-            <div class="preview-quad-box p-3 rounded-3 mb-4">
-              <h6 class="text-white fw-bold mb-2">
-                <i class="fa-solid fa-graduation-cap text-cyan me-2"></i>{{ 'roadmap.whatCoursesCover' | trans }}
+            <div class="preview-box p-3 rounded-3 mb-4">
+              <h6 class="fw-bold mb-2">
+                <i class="fa-solid fa-graduation-cap text-pine me-2"></i>{{ 'roadmap.whatCoursesCover' | trans }}
               </h6>
               <ul class="list-unstyled mb-0 small">
                 <li *ngFor="let cov of selectedStage.whatCoursesCover" class="mb-1 d-flex align-items-baseline gap-2 text-secondary">
-                  <i class="fa-solid fa-bookmark text-primary small flex-shrink-0"></i>
+                  <i class="fa-solid fa-bookmark text-mint small flex-shrink-0"></i>
                   <span>{{ cov }}</span>
                 </li>
               </ul>
             </div>
 
             <!-- Interview Question Preview -->
-            <div *ngIf="selectedStage.interviewFocus && selectedStage.interviewFocus.length > 0" class="preview-quad-box p-3 rounded-3 mb-4">
-              <h6 class="text-white fw-bold mb-2">
+            <div *ngIf="selectedStage.interviewFocus && selectedStage.interviewFocus.length > 0" class="preview-box p-3 rounded-3 mb-4">
+              <h6 class="fw-bold mb-2">
                 <i class="fa-solid fa-comments text-warning me-2"></i>{{ 'roadmap.interviewFocus' | trans }}
               </h6>
-              <div *ngFor="let q of selectedStage.interviewFocus; let qI = index" class="interview-preview-item p-3 mb-2 rounded-2">
-                <div class="fw-semibold text-white small mb-1">
+              <div *ngFor="let q of selectedStage.interviewFocus; let qI = index" class="interview-box p-3 mb-2 rounded-2">
+                <div class="fw-semibold small mb-1">
                   Q{{ qI + 1 }}: {{ q.question }}
                 </div>
                 <button class="btn-toggle-answer mb-2" (click)="toggleAnswer('preview_' + qI)">
                   {{ isAnswerVisible('preview_' + qI) ? ('roadmap.hideStrategy' | trans) : ('roadmap.revealStrategy' | trans) }}
                 </button>
                 <div *ngIf="isAnswerVisible('preview_' + qI)" class="small text-secondary border-top pt-2">
-                  <strong class="text-cyan">Strategy:</strong> {{ q.answerStrategy }}
+                  <strong class="text-pine">Strategy:</strong> {{ q.answerStrategy }}
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Modal Footer CTA -->
+          <!-- Drawer Footer CTA -->
           <div class="pt-3 border-top d-flex justify-content-between align-items-center gap-2 flex-wrap">
-            <button class="btn btn-sm btn-secondary-action" (click)="closePreview()">
-              Close
+            <button class="btn btn-sm btn-action-subtle" (click)="closePreview()">
+              {{ currentLang === 'ar' ? 'إغلاق' : 'Close' }}
             </button>
-            <a [routerLink]="['/stage', selectedStage.id]" class="btn btn-sm btn-primary-action" (click)="closePreview()">
+            <a [routerLink]="['/stage', selectedStage.id]" class="btn btn-sm btn-primary-clean" (click)="closePreview()">
               <span>{{ 'roadmap.openDeepDive' | trans }}</span>
-              <i class="fa-solid fa-arrow-right ms-2"></i>
+              <i class="fa-solid" [class.fa-arrow-left]="currentLang === 'ar'" [class.fa-arrow-right]="currentLang !== 'ar'"></i>
             </a>
           </div>
         </div>
       </div>
+
     </div>
   `,
   styles: [`
@@ -702,179 +641,100 @@ export interface RoadmapPhase {
       position: relative;
     }
 
-    /* Radial Progress Meter */
-    .progress-meter-card {
+    /* HERO SECTION */
+    .hero-kicker {
       background: var(--surface-card);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-    }
-    .progress-radial-circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: conic-gradient(var(--primary) var(--pct), var(--surface-elevated) 0);
-      position: relative;
-      flex-shrink: 0;
-    }
-    .progress-radial-circle::before {
-      content: '';
-      position: absolute;
-      inset: 4px;
-      border-radius: 50%;
-      background: var(--surface-card);
-    }
-    .progress-radial-circle span {
-      position: relative;
-      z-index: 1;
-      font-size: 0.72rem;
-      color: var(--text-primary);
-    }
-
-    /* Toolbar & Search */
-    .toolbar-box {
-      background: var(--surface-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-    }
-    .search-icon-wrap {
-      background: var(--surface);
-      border-color: var(--border-subtle);
-    }
-    .search-filter-input {
-      background: var(--surface);
-      border-color: var(--border-subtle);
-      color: var(--text-primary);
-    }
-    .search-filter-input:focus {
-      background: var(--surface);
-      border-color: var(--primary);
-      color: var(--text-primary);
-    }
-    .btn-clear-search {
-      background: var(--surface);
-      border-color: var(--border-subtle);
-    }
-
-    /* View Switcher */
-    .view-switcher-group {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      gap: 2px;
-    }
-    .view-btn {
-      background: transparent;
-      border: none;
+      font-size: 0.74rem;
       color: var(--text-secondary);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      white-space: nowrap;
     }
-    .view-btn:hover {
-      color: var(--text-primary);
-      background: var(--surface-hover);
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-mint);
+      box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+      display: inline-block;
     }
-    .view-btn.active {
-      background: var(--primary);
-      color: #ffffff;
-      box-shadow: 0 2px 8px var(--primary-glow);
+    .kicker-label {
+      color: var(--primary);
+      font-weight: 700;
     }
-
-    /* Category Track */
-    .category-pill-track {
-      overflow-x: auto;
-      scrollbar-width: thin;
-      padding-bottom: 2px;
-    }
-    .filter-pill {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-size: 0.72rem;
-      border-radius: 999px;
-      padding: 3px 10px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-    }
-    .filter-pill:hover {
-      border-color: var(--border-hover);
-      color: var(--text-primary);
-    }
-    .filter-pill.active {
-      background: rgba(59, 130, 246, 0.15);
-      border-color: var(--primary);
-      color: var(--primary-light);
-      font-weight: 600;
-    }
-
-    .source-pill, .cov-pill {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
+    .kicker-sep {
       color: var(--text-muted);
-      font-size: 0.72rem;
-      border-radius: var(--radius-sm);
-      padding: 2px 8px;
-      cursor: pointer;
-      transition: all 0.15s ease;
     }
-    .source-pill:hover, .cov-pill:hover {
-      color: var(--text-secondary);
-      border-color: var(--border-hover);
-    }
-    .source-pill.active {
-      background: rgba(59, 130, 246, 0.15);
-      border-color: var(--primary);
-      color: var(--primary-light);
-      font-weight: 600;
-    }
-    .cov-pill.active {
-      background: var(--success-bg);
-      border-color: var(--success);
-      color: var(--success);
-      font-weight: 600;
-    }
-    .vr-divider {
-      width: 1px;
-      height: 18px;
-      background: var(--border-subtle);
-    }
-    .btn-reset-filters {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-    }
-
-    /* HERO TITLE */
-    .hero-roadmap-title {
-      font-size: 2rem;
+    .hero-title {
+      font-size: 2.1rem;
+      color: var(--text-primary);
       letter-spacing: -0.02em;
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
+    }
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 680px;
+      line-height: 1.6;
+      font-family: var(--font-arabic-body), 'Alexandria', sans-serif;
     }
 
-    /* PHASE NAVIGATOR RIBBON */
-    .phase-navigator-card {
+    /* INTEGRATED PROGRESS BOX */
+    .progress-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      min-width: 280px;
+      box-shadow: var(--shadow-sm);
+    }
+    .progress-label {
+      font-size: 0.82rem;
+      color: var(--text-primary);
+    }
+    .progress-pct-badge {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--primary-subtle);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+    }
+    .custom-progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-elevated);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+    .custom-progress-fill {
+      height: 100%;
+      background: var(--brand-gradient);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    /* PHASE RIBBON CARD */
+    .phase-ribbon-card {
       background: var(--surface-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
     }
-    .phase-pills-scroll {
+    .ribbon-title {
+      font-size: 0.74rem;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+    }
+    .phase-ribbon-scroll {
       overflow-x: auto;
       scrollbar-width: thin;
       padding-bottom: 4px;
     }
-    .phase-nav-chip {
-      background: var(--surface);
+    .phase-ribbon-chip {
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       padding: 6px 12px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       color: var(--text-secondary);
       cursor: pointer;
@@ -882,139 +742,267 @@ export interface RoadmapPhase {
       transition: all 0.2s ease;
       flex-shrink: 0;
     }
-    .phase-nav-chip:hover {
+    .phase-ribbon-chip:hover {
       background: var(--surface-hover);
       color: var(--text-primary);
       border-color: var(--primary);
       transform: translateY(-1px);
     }
-    .phase-nav-chip.completed {
-      border-color: rgba(16, 185, 129, 0.4);
-      background: rgba(16, 185, 129, 0.08);
-      color: var(--text-primary);
+    .phase-ribbon-chip.completed {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--primary);
     }
-    .phase-nav-chip .chip-num {
-      font-size: 0.75rem;
+    .phase-ribbon-chip .chip-num {
       font-weight: 800;
-      color: var(--primary-light);
+      color: var(--primary);
     }
-    .phase-nav-chip .chip-pct {
-      font-size: 0.7rem;
+    .phase-ribbon-chip .chip-pct {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      background: var(--surface);
       padding: 1px 6px;
       border-radius: var(--radius-sm);
-      background: var(--surface-elevated);
-      color: var(--text-muted);
-    }
-    .phase-nav-chip.completed .chip-pct {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34D399;
-    }
-    .phase-nav-arrow {
-      font-size: 0.75rem;
-      flex-shrink: 0;
-      opacity: 0.6;
     }
     .btn-action-subtle {
-      background: var(--surface);
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
       color: var(--text-secondary);
       font-size: 0.74rem;
       font-weight: 600;
-      padding: 4px 9px;
+      padding: 4px 10px;
       border-radius: var(--radius-sm);
       cursor: pointer;
       transition: all 0.15s ease;
     }
     .btn-action-subtle:hover {
       background: var(--surface-hover);
-      color: var(--primary-light);
+      color: var(--primary);
       border-color: var(--primary);
     }
 
-    /* PHASE THEMES */
-    .phase-milestone-section[data-phase="1"] { --phase-accent: #10B981; }
-    .phase-milestone-section[data-phase="2"] { --phase-accent: #3B82F6; }
-    .phase-milestone-section[data-phase="3"] { --phase-accent: #8B5CF6; }
-    .phase-milestone-section[data-phase="4"] { --phase-accent: #06B6D4; }
-    .phase-milestone-section[data-phase="5"] { --phase-accent: #F59E0B; }
-    .phase-milestone-section[data-phase="6"] { --phase-accent: #14B8A6; }
-    .phase-milestone-section[data-phase="7"] { --phase-accent: #2563EB; }
-    .phase-milestone-section[data-phase="8"] { --phase-accent: #F43F5E; }
-
-    /* PHASE MILESTONE GATEWAY CARD */
-    .phase-gateway-card {
+    /* ROADMAP TOOLBAR */
+    .roadmap-toolbar {
       background: var(--surface-card);
       border: 1px solid var(--border-subtle);
-      border-inline-start: 4px solid var(--phase-accent, var(--primary));
       border-radius: var(--radius-lg);
-      transition: all 0.2s ease;
       box-shadow: var(--shadow-sm);
     }
-    .phase-gateway-card.collapsed {
-      opacity: 0.85;
+    .search-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
-    .phase-gateway-card:hover {
+    .search-icon {
+      position: absolute;
+      inset-inline-start: 12px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+    .clean-search-input {
+      padding-inline-start: 36px;
+      padding-inline-end: 32px;
+      height: 38px;
+      font-size: 0.82rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      transition: all 0.15s ease;
+    }
+    .clean-search-input:focus {
+      background: var(--surface);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .btn-clear-search {
+      position: absolute;
+      inset-inline-end: 10px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .btn-clear-search:hover {
+      color: var(--text-primary);
+    }
+
+    /* SEGMENTED CONTROL */
+    .segmented-control {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      display: inline-flex;
+      gap: 2px;
+    }
+    .segmented-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .segmented-btn:hover {
+      color: var(--text-primary);
+    }
+    .segmented-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .stage-counter-pill {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .btn-reset-pill {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+    .btn-reset-pill:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* CATEGORY PILLS ROW */
+    .category-pills-row {
+      overflow-x: auto;
+      scrollbar-width: thin;
+      padding-bottom: 2px;
+    }
+    .category-pill {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .category-pill:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+    .category-pill.active {
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* PHASE CHAPTER HEADER */
+    .phase-chapter-header {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-inline-start: 4px solid var(--primary);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+    .phase-chapter-header.collapsed {
+      opacity: 0.88;
+    }
+    .phase-chapter-header:hover {
       box-shadow: var(--shadow-md);
       border-color: var(--border-hover);
     }
     .phase-number-crest {
       width: 44px;
       height: 44px;
-      background: var(--surface-elevated);
-      border: 1px solid var(--border-subtle);
+      background: var(--primary-subtle);
+      border: 1px solid rgba(21, 82, 57, 0.2);
       border-radius: var(--radius-md);
       display: grid;
       place-items: center;
-      color: var(--phase-accent, var(--primary-light));
+      color: var(--primary);
       font-size: 1.15rem;
       font-weight: 800;
       flex-shrink: 0;
-      box-shadow: var(--shadow-sm);
     }
     .phase-badge {
       font-size: 0.72rem;
       font-weight: 800;
-      color: var(--phase-accent, var(--primary-light));
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: var(--primary);
+      background: var(--primary-subtle);
       padding: 2px 8px;
       border-radius: var(--radius-sm);
     }
-    .badge-phase-cat {
-      background: var(--surface);
+    .phase-cat-pill {
+      background: var(--surface-elevated);
       color: var(--text-secondary);
       border: 1px solid var(--border-subtle);
       font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+    }
+    .phase-duration {
+      font-size: 0.72rem;
+      color: var(--text-muted);
     }
     .phase-title {
-      font-size: 1.2rem;
-      line-height: 1.3;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
     }
-    .phase-progress-wrap {
+    .phase-desc {
+      font-family: var(--font-arabic-body), 'Alexandria', sans-serif;
+      line-height: 1.6;
+    }
+    .phase-meter {
       min-width: 140px;
     }
-    .phase-progress-bar {
-      height: 6px;
-      background: var(--surface);
+    .phase-pct-badge {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      background: var(--surface-elevated);
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+    .phase-pct-badge.done {
+      background: var(--success-bg);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .phase-progress-track {
+      height: 5px;
+      background: var(--surface-elevated);
       border-radius: 999px;
       overflow: hidden;
       border: 1px solid var(--border-subtle);
     }
-    .phase-progress-fill {
+    .phase-progress-bar {
       height: 100%;
-      background: var(--success);
+      background: var(--brand-gradient);
       transition: width 0.3s ease;
-    }
-    .badge-phase-pct {
-      background: var(--surface);
-      color: var(--text-secondary);
-      border: 1px solid var(--border-subtle);
     }
     .btn-phase-toggle {
       width: 32px;
       height: 32px;
       border-radius: var(--radius-sm);
-      background: var(--surface);
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
       color: var(--text-secondary);
       display: grid;
@@ -1023,217 +1011,137 @@ export interface RoadmapPhase {
       transition: all 0.15s ease;
     }
     .btn-phase-toggle:hover {
-      color: var(--text-primary);
+      color: var(--primary);
       border-color: var(--primary);
       background: var(--surface-hover);
     }
 
-    /* VISUAL ROADMAP SPINE & FLOW NODES */
-    .flow-track-wrapper {
+    /* NODES STREAM (roadmap.sh flow tree) */
+    .nodes-stream-container {
       position: relative;
       padding-bottom: 8px;
     }
-    .flow-spine-line {
+    .spine-line {
       position: absolute;
       top: 0;
       bottom: 24px;
-      inset-inline-start: 22px;
+      inset-inline-start: 19px;
       width: 2px;
-      background: linear-gradient(to bottom, var(--phase-accent, #3B82F6) 0%, rgba(148, 163, 184, 0.15) 100%);
+      background: linear-gradient(to bottom, var(--primary) 0%, rgba(21, 82, 57, 0.15) 100%);
       pointer-events: none;
       z-index: 1;
     }
-    .flow-stage-row {
-      padding-inline-start: 60px;
+    .stage-node-item {
+      position: relative;
+      padding-inline-start: 56px;
+      margin-bottom: 20px;
     }
-    .flow-node-marker {
+
+    /* Node Pin Button on the Spine */
+    .node-pin-btn {
       position: absolute;
-      inset-inline-start: 6px;
+      inset-inline-start: 3px;
       top: 18px;
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: var(--surface-elevated);
-      border: 2px solid var(--border-subtle);
+      background: var(--surface-card);
+      border: 2px solid var(--border-strong);
       display: grid;
       place-items: center;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: var(--text-secondary);
       cursor: pointer;
       z-index: 2;
       transition: all 0.2s ease;
-      box-shadow: 0 0 0 4px var(--surface-base);
+      box-shadow: 0 0 0 3px var(--bg-primary);
+      color: var(--text-primary);
     }
-    .flow-node-marker:hover {
+    .node-pin-btn:hover {
       transform: scale(1.1);
       border-color: var(--primary);
-      color: var(--primary-light);
+      color: var(--primary);
     }
-    .flow-node-marker.completed {
-      background: #10B981;
-      border-color: #34D399;
+    .node-pin-btn.completed {
+      background: var(--primary);
+      border-color: var(--accent-mint);
       color: #FFFFFF;
-      box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+      box-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
     }
-    .flow-branch-connector {
+    .pin-number {
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+    .node-branch-line {
       position: absolute;
-      inset-inline-start: 40px;
+      inset-inline-start: 36px;
       top: 34px;
       width: 20px;
       height: 2px;
       background: var(--border-subtle);
       z-index: 1;
     }
-    .flow-stage-card {
+
+    /* Node Card Body */
+    .node-card-body {
       background: var(--surface-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
       transition: all 0.2s ease;
-      position: relative;
-    }
-    .flow-stage-card:hover {
-      background: var(--surface-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-    .flow-stage-card.is-completed {
-      border-inline-start: 3px solid var(--success);
-    }
-    .flow-stage-card.is-active-preview {
-      border-color: var(--primary);
-      box-shadow: 0 0 16px var(--primary-glow);
-    }
-    .stage-id-pill {
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: var(--primary-light);
-      background: var(--surface-elevated);
-      border: 1px solid var(--border-subtle);
-      padding: 2px 7px;
-      border-radius: var(--radius-sm);
-    }
-    .btn-inline-topics {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .btn-inline-topics:hover, .btn-inline-topics.active {
-      color: var(--primary-light);
-      border-color: var(--primary);
-      background: var(--surface-hover);
-    }
-    .inline-topics-box {
-      background: var(--surface-base);
-      border: 1px solid var(--border-subtle);
-    }
-    .topic-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent-cyan);
-      flex-shrink: 0;
-    }
-    .topic-name {
-      font-size: 0.8rem;
-    }
-    .step-connector-down {
-      width: 100%;
-    }
-    .step-line-stem {
-      width: 2px;
-      height: 16px;
-      background: var(--border-subtle);
-      margin: 0 auto 4px;
-    }
-    .phase-waypoint-bridge {
-      margin-inline-start: 60px;
-    }
-    .bridge-stem-line {
-      width: 2px;
-      height: 24px;
-      background: linear-gradient(to bottom, var(--phase-accent, #3B82F6), rgba(148, 163, 184, 0.2));
-      margin: 0 auto 6px;
-    }
-    .bridge-chip {
-      background: var(--surface-card);
-      border: 1px dashed var(--border-subtle);
       box-shadow: var(--shadow-sm);
     }
-
-    /* STAGE CARD */
-    .stage-card {
-      background: var(--surface-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      transition: all 0.2s ease;
-      position: relative;
-    }
-    .stage-card:hover {
-      background: var(--surface-hover);
+    .node-card-body:hover {
       border-color: var(--border-hover);
-      transform: translateY(-2px);
       box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
     }
-    .stage-card.is-completed {
-      border-inline-start: 3px solid var(--success);
+    .stage-node-item.is-completed .node-card-body {
+      border-inline-start: 3px solid var(--accent-mint);
     }
-    .stage-card.is-active-preview {
-      border-color: var(--primary);
-      box-shadow: 0 0 16px var(--primary-glow);
-    }
-    .stage-card-title {
-      font-size: 1rem;
-      line-height: 1.35;
-    }
-    .stage-card-desc {
-      line-height: 1.5;
-    }
-    .stage-num-badge {
-      width: 28px;
-      height: 28px;
-      background: var(--surface-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      display: grid;
-      place-items: center;
-      font-size: 0.78rem;
+
+    .stage-code {
+      font-size: 0.72rem;
       font-weight: 800;
-      color: var(--primary-light);
+      color: var(--primary);
+      background: var(--primary-subtle);
+      border: 1px solid rgba(21, 82, 57, 0.2);
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
     }
-    .stage-cat-pill {
+    .stage-tag {
       font-size: 0.68rem;
-      background: var(--surface);
+      background: var(--surface-elevated);
       color: var(--text-secondary);
       border: 1px solid var(--border-subtle);
       padding: 2px 7px;
       border-radius: var(--radius-sm);
     }
-    .diff-badge {
-      font-size: 0.65rem;
+    .stage-diff {
+      font-size: 0.66rem;
       padding: 2px 6px;
       border-radius: var(--radius-sm);
-      background: var(--surface);
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
+      font-weight: 600;
     }
-    .diff-badge[data-diff="Beginner"] { border-color: var(--success-border); color: var(--success); }
-    .diff-badge[data-diff="Intermediate"] { border-color: var(--warning-border); color: var(--warning); }
-    .diff-badge[data-diff="Advanced"] { border-color: var(--error-border); color: var(--error); }
+    .stage-diff[data-diff="Beginner"] { border-color: var(--success-border); color: var(--primary); }
+    .stage-diff[data-diff="Intermediate"] { border-color: var(--warning-border); color: var(--warning); }
+    .stage-diff[data-diff="Advanced"] { border-color: var(--error-border); color: var(--error); }
 
-    .duration-badge {
+    .stage-time {
       font-size: 0.68rem;
       color: var(--text-muted);
     }
+    .stage-diagram-pill {
+      font-size: 0.66rem;
+      background: var(--primary-subtle);
+      border: 1px solid var(--success-border);
+      color: var(--primary);
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+    }
 
-    .btn-stage-check {
-      background: var(--surface);
+    .btn-stage-checkbox {
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
       color: var(--text-muted);
       width: 28px;
@@ -1245,16 +1153,145 @@ export interface RoadmapPhase {
       transition: all 0.15s ease;
       font-size: 0.75rem;
     }
-    .btn-stage-check:hover {
-      border-color: var(--success);
-      color: var(--success);
+    .btn-stage-checkbox:hover {
+      border-color: var(--primary);
+      color: var(--primary);
     }
-    .btn-stage-check.checked {
-      background: var(--success-bg);
-      border-color: var(--success);
-      color: var(--success);
+    .btn-stage-checkbox.checked {
+      background: var(--primary);
+      border-color: var(--accent-mint);
+      color: #FFFFFF;
     }
 
+    .node-title {
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
+    }
+    .node-title-link {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .node-title-link:hover {
+      color: var(--primary);
+    }
+    .node-desc {
+      line-height: 1.6;
+      font-family: var(--font-arabic-body), 'Alexandria', sans-serif;
+    }
+    .node-tool-chip {
+      font-size: 0.7rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+    }
+    .node-course-tag {
+      font-size: 0.66rem;
+      background: var(--surface-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-quick-inspect {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-quick-inspect:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--surface-hover);
+    }
+
+    .btn-deep-dive-clean {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      color: #FFFFFF !important;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      text-decoration: none !important;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-deep-dive-clean:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    /* WAYPOINT BRIDGE */
+    .phase-waypoint-bridge {
+      margin-inline-start: 56px;
+    }
+    .waypoint-stem {
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(to bottom, var(--primary), rgba(21, 82, 57, 0.2));
+      margin: 0 auto 6px;
+    }
+    .waypoint-chip {
+      background: var(--surface-card);
+      border: 1px dashed var(--border-subtle);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* GRID VIEW CARD */
+    .grid-stage-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .grid-stage-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .grid-stage-card.is-completed {
+      border-inline-start: 3px solid var(--accent-mint);
+    }
+
+    /* TABLE VIEW */
+    .clean-tracker-table {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+    }
+    .clean-tracker-table thead th {
+      background: var(--surface-elevated);
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 12px 14px;
+    }
+    .clean-tracker-table tbody td {
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      background: transparent;
+      font-size: 0.82rem;
+      color: var(--text-primary);
+    }
+    .clean-tracker-table tbody tr:hover td {
+      background: var(--surface-hover);
+    }
     .btn-stage-check-mini {
       background: transparent;
       border: none;
@@ -1263,94 +1300,22 @@ export interface RoadmapPhase {
       font-size: 0.85rem;
     }
     .btn-stage-check-mini.checked {
-      color: var(--success);
+      color: var(--primary);
     }
 
-    .diagram-pill {
-      font-size: 0.68rem;
-      background: rgba(6, 182, 212, 0.12);
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      color: var(--accent-cyan);
-      padding: 2px 7px;
-      border-radius: var(--radius-sm);
-    }
-
-    .btn-quick-preview {
-      background: var(--surface);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-      transition: all 0.15s ease;
-    }
-    .btn-quick-preview:hover {
-      border-color: var(--primary);
-      color: var(--primary-light);
-      background: var(--surface-hover);
-    }
-
-    .btn-deep-dive {
-      background: var(--surface-elevated);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-      text-decoration: none !important;
-      transition: all 0.15s ease;
-    }
-    .btn-deep-dive:hover {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #ffffff !important;
-    }
-
-    /* TRACKER TABLE STYLES */
-    .tracker-head th {
-      background: var(--surface);
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      padding: 12px 14px;
-    }
-    .tracker-row td {
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 12px 14px;
-      background: transparent;
-      font-size: 0.82rem;
-    }
-    .tracker-row:hover td {
-      background: var(--surface-hover);
-    }
-    .tracker-row.is-completed td {
-      background: rgba(34, 197, 94, 0.02);
-    }
-    .stage-num-text {
-      color: var(--primary-light);
-    }
-    .cat-badge-tracker {
-      background: var(--surface);
-      color: var(--text-secondary);
-      border: 1px solid var(--border-subtle);
-      font-size: 0.7rem;
-    }
-
-    /* SLIDE-OVER PREVIEW MODAL */
+    /* SLIDE-OVER DRAWER */
     .stage-preview-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
+      background: rgba(17, 24, 39, 0.45);
+      backdrop-filter: blur(4px);
       z-index: 1060;
       display: flex;
       justify-content: flex-end;
     }
     .stage-preview-modal {
       width: 100%;
-      max-width: 760px;
+      max-width: 720px;
       height: 100vh;
       background: var(--surface-card);
       border-inline-start: 1px solid var(--border-subtle);
@@ -1370,8 +1335,12 @@ export interface RoadmapPhase {
     [dir="rtl"] .stage-preview-modal {
       animation: slideInRtl 0.25s ease-out;
     }
-    .btn-close-preview {
-      background: var(--surface);
+    .drawer-heading {
+      color: var(--text-primary);
+      font-family: var(--font-arabic-heading), 'Cairo', sans-serif;
+    }
+    .btn-close-drawer {
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
       color: var(--text-secondary);
       width: 32px;
@@ -1381,7 +1350,7 @@ export interface RoadmapPhase {
       border-radius: var(--radius-sm);
       cursor: pointer;
     }
-    .btn-close-preview:hover {
+    .btn-close-drawer:hover {
       color: var(--text-primary);
       border-color: var(--border-hover);
     }
@@ -1391,8 +1360,8 @@ export interface RoadmapPhase {
       padding-inline-end: 4px;
       flex-grow: 1;
     }
-    .preview-quad-box {
-      background: var(--surface);
+    .preview-box {
+      background: var(--surface-elevated);
       border: 1px solid var(--border-subtle);
     }
     .concept-label {
@@ -1401,29 +1370,52 @@ export interface RoadmapPhase {
       letter-spacing: 0.05em;
       display: block;
     }
-    .interview-preview-item {
-      background: var(--surface-elevated);
+    .text-pine {
+      color: var(--primary) !important;
+    }
+    .text-mint {
+      color: var(--accent-mint) !important;
+    }
+    .interview-box {
+      background: var(--surface);
       border: 1px solid var(--border-subtle);
     }
     .btn-toggle-answer {
       background: transparent;
       border: none;
-      color: var(--primary-light);
+      color: var(--primary);
       font-size: 0.72rem;
       cursor: pointer;
       text-decoration: underline;
       padding: 0;
+      font-weight: 600;
     }
-    .badge-subtle-primary {
-      background: var(--primary-subtle);
-      color: var(--primary-light);
-      border: 1px solid rgba(21, 82, 57, 0.25);
+    .btn-primary-clean {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      color: #FFFFFF !important;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      text-decoration: none !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
     }
-    .badge-subtle-info {
-      background: var(--info-bg);
-      color: var(--info);
-      border: 1px solid var(--info-border);
+    .btn-primary-clean:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
     }
+
+    /* EMPTY STATE */
+    .empty-state-card {
+      background: var(--surface-card);
+      border: 1px dashed var(--border-subtle);
+      border-radius: var(--radius-lg);
+    }
+
     .line-clamp-1 {
       display: -webkit-box;
       -webkit-line-clamp: 1;
@@ -1431,20 +1423,12 @@ export interface RoadmapPhase {
       overflow: hidden;
     }
 
-    @media (max-width: 575.98px) {
-      .view-switcher-group {
-        width: 100%;
-        display: flex !important;
+    @media (max-width: 767.98px) {
+      .hero-title {
+        font-size: 1.65rem;
       }
-      .view-btn {
-        flex: 1;
-        text-align: center;
-        padding: 6px 4px;
-        font-size: 0.7rem;
-      }
-      .progress-meter-card {
-        width: 100%;
-        justify-content: space-between;
+      .progress-box {
+        min-width: 100%;
       }
       .stage-preview-modal {
         max-width: 100% !important;
